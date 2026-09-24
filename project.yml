@@ -1,0 +1,81 @@
+name: Humstead
+options:
+  minimumXcodeGenVersion: 2.46.0
+  xcodeVersion: "26.0"
+  deploymentTarget:
+    macOS: "13.0"
+configs:
+  Debug: debug
+  Testing: debug
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    ARCHS: arm64
+    ONLY_ACTIVE_ARCH: YES
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+    DEVELOPMENT_TEAM: ""
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: YES
+    ENABLE_HARDENED_RUNTIME: NO
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CLANG_MODULE_CACHE_PATH: "$(SRCROOT)/.build/ModuleCache"
+    SWIFT_MODULE_CACHE_PATH: "$(SRCROOT)/.build/ModuleCache"
+targets:
+  Humstead:
+    type: application
+    platform: macOS
+    sources: [Humstead]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead
+        CODE_SIGN_ENTITLEMENTS: Humstead/Humstead.entitlements
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_OUTGOING_NETWORK_CONNECTIONS: YES
+        ENABLE_DEBUG_DYLIB: NO
+        INFOPLIST_KEY_CFBundleDisplayName: Humstead
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.music
+      configs:
+        Testing:
+          PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.testing
+  HumsteadTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [HumsteadTests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.tests
+        GENERATE_INFOPLIST_FILE: YES
+  HumsteadUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [HumsteadUITests]
+    dependencies:
+      - target: Humstead
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.uitests
+        TEST_TARGET_NAME: Humstead
+schemes:
+  Humstead:
+    build:
+      targets:
+        Humstead: all
+        HumsteadTests: [test]
+        HumsteadUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Testing
+      testPlans:
+        - path: Humstead.xctestplan
+          defaultPlan: true
+      targets:
+        - HumsteadTests
+        - HumsteadUITests
+    archive:
+      config: Release

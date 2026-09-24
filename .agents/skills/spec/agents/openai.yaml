@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humstead Spec"
+  short_description: "Draft immutable Humstead behavior contracts"
+  default_prompt: "Use $spec for the current Humstead task."

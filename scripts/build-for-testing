@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+source "$(dirname "$0")/environment"
+xcodebuild "${BUILD_ARGS[@]}" -configuration Testing build-for-testing
+# Xcode adds test-host exceptions during test builds. Rebuild the app with its production entitlements.
+xcodebuild "${BUILD_ARGS[@]}" -configuration Testing build
+scripts/inspect-app Testing

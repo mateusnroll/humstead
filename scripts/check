@@ -1,0 +1,24 @@
+#!/bin/bash
+set -euo pipefail
+source "$(dirname "$0")/environment"
+xcrun swift-format lint --strict --recursive Humstead HumsteadTests HumsteadUITests
+scripts/validate-workflows
+scripts/validate-ci
+python3 - <<'PY'
+import pathlib, shutil, subprocess, tempfile
+root = pathlib.Path.cwd()
+with tempfile.TemporaryDirectory(prefix='generated-', dir=root / '.build') as directory:
+    staging = pathlib.Path(directory)
+    for name in ('project.yml', 'Humstead.xctestplan', 'Humstead', 'HumsteadTests', 'HumsteadUITests'):
+        source = root / name
+        if source.is_dir():
+            shutil.copytree(source, staging / name)
+        else:
+            shutil.copy2(source, staging / name)
+    subprocess.run([str(root / '.tools/xcodegen/bin/xcodegen'), 'generate', '--spec', str(staging / 'project.yml')], check=True)
+    generated = staging / 'Humstead.xcodeproj'
+    for name in ('project.pbxproj', 'xcshareddata/xcschemes/Humstead.xcscheme'):
+        if (generated / name).read_bytes() != (root / 'Humstead.xcodeproj' / name).read_bytes():
+            raise SystemExit('Generated project drift: ' + name + '; run scripts/setup')
+print('Static checks passed')
+PY
