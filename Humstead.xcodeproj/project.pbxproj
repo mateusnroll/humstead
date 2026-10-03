@@ -7,10 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02ED23ED09498616B68639BD /* 2-hour-delay.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */; };
+		082CEA5828AB8DFF2DD33586 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 53BA853F7B4BE8CC453A2225 /* catalog.json */; };
 		0E41B5B5DE42E8E774D5D694 /* ScaffoldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38FED8DD9551BDCF642D30 /* ScaffoldTests.swift */; };
 		1019E0D1A6774D954706E524 /* HumsteadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59074CD4FB112475B6B9955B /* HumsteadApp.swift */; };
+		14434117F38DE8F46178008C /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */; };
+		1B2B56B97C270C487EA689BC /* chills.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9A97CCE3684ADD402FE7356E /* chills.m4a */; };
+		24ECADAFD4CDF41CBDAEA36F /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FFA6DA8E74147B47B88AF9 /* AudioController.swift */; };
+		2C6A02924FB45942840997AC /* keeping-cool.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */; };
+		2E4B2ADF569E026C412BBB43 /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */; };
+		342B58B96AE3BCC7CD3128C1 /* everything-you-ever-dreamed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */; };
+		36490357FAA01F78C0409672 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FFA6DA8E74147B47B88AF9 /* AudioController.swift */; };
+		3873421FFDF74F3C49BF6F94 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3639535D720E5CF57D349E29 /* PlayerModel.swift */; };
+		38C7D4D1F9E5BCD600930B78 /* ShuffleBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F93CF13FA03205996FB784 /* ShuffleBag.swift */; };
+		3F07A2D1A3C8AE1E6E1F59A5 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 53BA853F7B4BE8CC453A2225 /* catalog.json */; };
+		3F2C644C9AAFDABD53C8D5E2 /* cafe.caf in Resources */ = {isa = PBXBuildFile; fileRef = 956964EF244F930A09CBE470 /* cafe.caf */; };
+		3FFA46A3535E089463A0EDDA /* fireplace.caf in Resources */ = {isa = PBXBuildFile; fileRef = F3712A184880B94C072D7386 /* fireplace.caf */; };
+		545AC465067A8F1EEFC5A655 /* snow-drift.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 407F5DAB7B99964D778659D0 /* snow-drift.m4a */; };
+		617DA701C1D4427A12CFD716 /* everything-you-ever-dreamed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */; };
+		626B49EE77556A6497621368 /* a-little-shade.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 858E7062701CE88D5191B190 /* a-little-shade.m4a */; };
+		62ED483A3874641344A26304 /* CatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2DFB5FED25EBFECAE7AE17 /* CatalogTests.swift */; };
+		66CFB3925DC325204A6A6D8A /* rain.caf in Resources */ = {isa = PBXBuildFile; fileRef = C74674AF5F29D32CB58CAC6D /* rain.caf */; };
+		67991452C89A17F48B32B05A /* rain.caf in Resources */ = {isa = PBXBuildFile; fileRef = C74674AF5F29D32CB58CAC6D /* rain.caf */; };
+		7CFA9D314A202636E8EEFA8E /* fireplace.caf in Resources */ = {isa = PBXBuildFile; fileRef = F3712A184880B94C072D7386 /* fireplace.caf */; };
 		7E77418C3E2EBE4EFBBFC2B4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EF92C9035A9E47E0748FB8 /* ContentView.swift */; };
+		839FDC440ACD46ACA8ED4C73 /* morning-coffee.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */; };
+		884F7E8CD660A12FB3078682 /* AudioControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D6E50894EEE86BC9E0F005 /* AudioControllerTests.swift */; };
 		8BD249F0EB16F5004F27E2CC /* ScaffoldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304376065FBB754E2FF377BF /* ScaffoldUITests.swift */; };
+		8F0BAE550D3F44EB23C75E9D /* CreditsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777AD4D44184CCF907CFF64 /* CreditsUITests.swift */; };
+		922543B0BCB2F2E1243A75E4 /* foggy-headed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */; };
+		92A404F5E5D4ABD0B96E02E9 /* forest.caf in Resources */ = {isa = PBXBuildFile; fileRef = B61EB79BD58E9AE033981AED /* forest.caf */; };
+		92CD663E6D1FC8CC072CF511 /* forest.caf in Resources */ = {isa = PBXBuildFile; fileRef = B61EB79BD58E9AE033981AED /* forest.caf */; };
+		9FF5D8DF6DB29D6654AF4398 /* ShuffleBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F93CF13FA03205996FB784 /* ShuffleBag.swift */; };
+		A4CFD63CBC9649003B7A77E3 /* cafe.caf in Resources */ = {isa = PBXBuildFile; fileRef = 956964EF244F930A09CBE470 /* cafe.caf */; };
+		A6F9AD0D51FAC17E4F0C5B56 /* chills.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9A97CCE3684ADD402FE7356E /* chills.m4a */; };
+		AB80BEAA527A0A0F489BF8A9 /* foggy-headed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */; };
+		B6EFA42C74D5907B245EEBC3 /* keeping-cool.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */; };
+		BC6C5724857D6D4C3B7A74CB /* a-little-shade.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 858E7062701CE88D5191B190 /* a-little-shade.m4a */; };
+		EEFB3E904237B370AA7A12AD /* snow-drift.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 407F5DAB7B99964D778659D0 /* snow-drift.m4a */; };
+		F16E51CEB405601DE564EC62 /* morning-coffee.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */; };
+		F1BEE262F86EA87D13765260 /* PlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542F6B7F749518D6CF643035 /* PlayerUITests.swift */; };
+		F2D5B5A88072FCC4A284A13C /* 2-hour-delay.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */; };
+		F801BF6FB35F92ABA915F379 /* creature-comforts.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */; };
+		F8D80403AE21ED8FE4710B0F /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C9AE399EBC8A2E235F4AF /* CreditsView.swift */; };
+		FAA85EA367A71C7E0EFFD73B /* creature-comforts.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */; };
+		FD90FA23B73E2927A5629A30 /* ShuffleBagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60F63220F5C0F94499AACF8 /* ShuffleBagTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,22 +66,60 @@
 
 /* Begin PBXFileReference section */
 		0AE80622C2EFA4AA1B51FDCA /* HumsteadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumsteadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */ = {isa = PBXFileReference; path = "morning-coffee.m4a"; sourceTree = "<group>"; };
+		16FFA6DA8E74147B47B88AF9 /* AudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 		19EF92C9035A9E47E0748FB8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1F2DFB5FED25EBFECAE7AE17 /* CatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogTests.swift; sourceTree = "<group>"; };
+		1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */ = {isa = PBXFileReference; path = "foggy-headed.m4a"; sourceTree = "<group>"; };
 		21EC3D19EE269919360F6AC1 /* Humstead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Humstead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE7880170EAE72F94502EB2 /* Humstead.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Humstead.entitlements; sourceTree = "<group>"; };
 		304376065FBB754E2FF377BF /* ScaffoldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldUITests.swift; sourceTree = "<group>"; };
+		3639535D720E5CF57D349E29 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
+		407F5DAB7B99964D778659D0 /* snow-drift.m4a */ = {isa = PBXFileReference; path = "snow-drift.m4a"; sourceTree = "<group>"; };
+		46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalog.swift; sourceTree = "<group>"; };
 		4E38FED8DD9551BDCF642D30 /* ScaffoldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldTests.swift; sourceTree = "<group>"; };
+		53BA853F7B4BE8CC453A2225 /* catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = catalog.json; sourceTree = "<group>"; };
+		542F6B7F749518D6CF643035 /* PlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUITests.swift; sourceTree = "<group>"; };
 		59074CD4FB112475B6B9955B /* HumsteadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumsteadApp.swift; sourceTree = "<group>"; };
+		616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */ = {isa = PBXFileReference; path = "keeping-cool.m4a"; sourceTree = "<group>"; };
 		707FC5FFC1DAA6FC89D528C9 /* HumsteadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumsteadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		858E7062701CE88D5191B190 /* a-little-shade.m4a */ = {isa = PBXFileReference; path = "a-little-shade.m4a"; sourceTree = "<group>"; };
+		90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */ = {isa = PBXFileReference; path = "2-hour-delay.m4a"; sourceTree = "<group>"; };
+		956964EF244F930A09CBE470 /* cafe.caf */ = {isa = PBXFileReference; path = cafe.caf; sourceTree = "<group>"; };
+		9A97CCE3684ADD402FE7356E /* chills.m4a */ = {isa = PBXFileReference; path = chills.m4a; sourceTree = "<group>"; };
+		A1D6E50894EEE86BC9E0F005 /* AudioControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioControllerTests.swift; sourceTree = "<group>"; };
+		A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */ = {isa = PBXFileReference; path = "creature-comforts.m4a"; sourceTree = "<group>"; };
+		B26C9AE399EBC8A2E235F4AF /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		B61EB79BD58E9AE033981AED /* forest.caf */ = {isa = PBXFileReference; path = forest.caf; sourceTree = "<group>"; };
+		B8F93CF13FA03205996FB784 /* ShuffleBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleBag.swift; sourceTree = "<group>"; };
+		C74674AF5F29D32CB58CAC6D /* rain.caf */ = {isa = PBXFileReference; path = rain.caf; sourceTree = "<group>"; };
+		C777AD4D44184CCF907CFF64 /* CreditsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsUITests.swift; sourceTree = "<group>"; };
+		C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */ = {isa = PBXFileReference; path = "everything-you-ever-dreamed.m4a"; sourceTree = "<group>"; };
+		F3712A184880B94C072D7386 /* fireplace.caf */ = {isa = PBXFileReference; path = fireplace.caf; sourceTree = "<group>"; };
+		F60F63220F5C0F94499AACF8 /* ShuffleBagTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleBagTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		4B4F3DF4A831F5B6E43F1EAC /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */,
+				B8F93CF13FA03205996FB784 /* ShuffleBag.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
 		4BA5F5310DED17EBEB1A610C /* Humstead */ = {
 			isa = PBXGroup;
 			children = (
 				19EF92C9035A9E47E0748FB8 /* ContentView.swift */,
+				B26C9AE399EBC8A2E235F4AF /* CreditsView.swift */,
 				2AE7880170EAE72F94502EB2 /* Humstead.entitlements */,
 				59074CD4FB112475B6B9955B /* HumsteadApp.swift */,
+				3639535D720E5CF57D349E29 /* PlayerModel.swift */,
+				A58817FB54609D827DA16D42 /* Audio */,
+				4B4F3DF4A831F5B6E43F1EAC /* Domain */,
+				B7368D8B309BD27C4AF767D5 /* Resources */,
 			);
 			path = Humstead;
 			sourceTree = "<group>";
@@ -55,12 +134,52 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		80CCC48C5C6BA69145F94A1B /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */,
+				858E7062701CE88D5191B190 /* a-little-shade.m4a */,
+				956964EF244F930A09CBE470 /* cafe.caf */,
+				9A97CCE3684ADD402FE7356E /* chills.m4a */,
+				A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */,
+				C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */,
+				F3712A184880B94C072D7386 /* fireplace.caf */,
+				1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */,
+				B61EB79BD58E9AE033981AED /* forest.caf */,
+				616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */,
+				112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */,
+				C74674AF5F29D32CB58CAC6D /* rain.caf */,
+				407F5DAB7B99964D778659D0 /* snow-drift.m4a */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		A58817FB54609D827DA16D42 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				16FFA6DA8E74147B47B88AF9 /* AudioController.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		AD411E434B4765B24C53B7D6 /* HumsteadTests */ = {
 			isa = PBXGroup;
 			children = (
+				A1D6E50894EEE86BC9E0F005 /* AudioControllerTests.swift */,
+				1F2DFB5FED25EBFECAE7AE17 /* CatalogTests.swift */,
 				4E38FED8DD9551BDCF642D30 /* ScaffoldTests.swift */,
+				F60F63220F5C0F94499AACF8 /* ShuffleBagTests.swift */,
 			);
 			path = HumsteadTests;
+			sourceTree = "<group>";
+		};
+		B7368D8B309BD27C4AF767D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				53BA853F7B4BE8CC453A2225 /* catalog.json */,
+				80CCC48C5C6BA69145F94A1B /* Audio */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D6439DDA90E7FF3D653A67F4 = {
@@ -76,6 +195,8 @@
 		F147912EF738E8F33BB8FD32 /* HumsteadUITests */ = {
 			isa = PBXGroup;
 			children = (
+				C777AD4D44184CCF907CFF64 /* CreditsUITests.swift */,
+				542F6B7F749518D6CF643035 /* PlayerUITests.swift */,
 				304376065FBB754E2FF377BF /* ScaffoldUITests.swift */,
 			);
 			path = HumsteadUITests;
@@ -89,6 +210,7 @@
 			buildConfigurationList = 4133BE7097B5AA43D0E25B87 /* Build configuration list for PBXNativeTarget "Humstead" */;
 			buildPhases = (
 				05F93337A8F2AEC15A92E025 /* Sources */,
+				D663B829A291A06DE76B11C1 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -106,6 +228,7 @@
 			buildConfigurationList = 64C703198436C3CDD761A6CA /* Build configuration list for PBXNativeTarget "HumsteadTests" */;
 			buildPhases = (
 				EE351278F9ADEFE523E7C204 /* Sources */,
+				8CCCE4184F51082B4718B163 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -181,13 +304,63 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		8CCCE4184F51082B4718B163 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2D5B5A88072FCC4A284A13C /* 2-hour-delay.m4a in Resources */,
+				626B49EE77556A6497621368 /* a-little-shade.m4a in Resources */,
+				A4CFD63CBC9649003B7A77E3 /* cafe.caf in Resources */,
+				3F07A2D1A3C8AE1E6E1F59A5 /* catalog.json in Resources */,
+				1B2B56B97C270C487EA689BC /* chills.m4a in Resources */,
+				F801BF6FB35F92ABA915F379 /* creature-comforts.m4a in Resources */,
+				617DA701C1D4427A12CFD716 /* everything-you-ever-dreamed.m4a in Resources */,
+				7CFA9D314A202636E8EEFA8E /* fireplace.caf in Resources */,
+				AB80BEAA527A0A0F489BF8A9 /* foggy-headed.m4a in Resources */,
+				92A404F5E5D4ABD0B96E02E9 /* forest.caf in Resources */,
+				B6EFA42C74D5907B245EEBC3 /* keeping-cool.m4a in Resources */,
+				839FDC440ACD46ACA8ED4C73 /* morning-coffee.m4a in Resources */,
+				66CFB3925DC325204A6A6D8A /* rain.caf in Resources */,
+				545AC465067A8F1EEFC5A655 /* snow-drift.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D663B829A291A06DE76B11C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02ED23ED09498616B68639BD /* 2-hour-delay.m4a in Resources */,
+				BC6C5724857D6D4C3B7A74CB /* a-little-shade.m4a in Resources */,
+				3F2C644C9AAFDABD53C8D5E2 /* cafe.caf in Resources */,
+				082CEA5828AB8DFF2DD33586 /* catalog.json in Resources */,
+				A6F9AD0D51FAC17E4F0C5B56 /* chills.m4a in Resources */,
+				FAA85EA367A71C7E0EFFD73B /* creature-comforts.m4a in Resources */,
+				342B58B96AE3BCC7CD3128C1 /* everything-you-ever-dreamed.m4a in Resources */,
+				3FFA46A3535E089463A0EDDA /* fireplace.caf in Resources */,
+				922543B0BCB2F2E1243A75E4 /* foggy-headed.m4a in Resources */,
+				92CD663E6D1FC8CC072CF511 /* forest.caf in Resources */,
+				2C6A02924FB45942840997AC /* keeping-cool.m4a in Resources */,
+				F16E51CEB405601DE564EC62 /* morning-coffee.m4a in Resources */,
+				67991452C89A17F48B32B05A /* rain.caf in Resources */,
+				EEFB3E904237B370AA7A12AD /* snow-drift.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		05F93337A8F2AEC15A92E025 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24ECADAFD4CDF41CBDAEA36F /* AudioController.swift in Sources */,
+				14434117F38DE8F46178008C /* Catalog.swift in Sources */,
 				7E77418C3E2EBE4EFBBFC2B4 /* ContentView.swift in Sources */,
+				F8D80403AE21ED8FE4710B0F /* CreditsView.swift in Sources */,
 				1019E0D1A6774D954706E524 /* HumsteadApp.swift in Sources */,
+				3873421FFDF74F3C49BF6F94 /* PlayerModel.swift in Sources */,
+				9FF5D8DF6DB29D6654AF4398 /* ShuffleBag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +368,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F0BAE550D3F44EB23C75E9D /* CreditsUITests.swift in Sources */,
+				F1BEE262F86EA87D13765260 /* PlayerUITests.swift in Sources */,
 				8BD249F0EB16F5004F27E2CC /* ScaffoldUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,7 +378,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36490357FAA01F78C0409672 /* AudioController.swift in Sources */,
+				884F7E8CD660A12FB3078682 /* AudioControllerTests.swift in Sources */,
+				2E4B2ADF569E026C412BBB43 /* Catalog.swift in Sources */,
+				62ED483A3874641344A26304 /* CatalogTests.swift in Sources */,
 				0E41B5B5DE42E8E774D5D694 /* ScaffoldTests.swift in Sources */,
+				38C7D4D1F9E5BCD600930B78 /* ShuffleBag.swift in Sources */,
+				FD90FA23B73E2927A5629A30 /* ShuffleBagTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ final class ScaffoldUITests: XCTestCase {
     XCTAssertTrue(window.waitForExistence(timeout: 10))
     XCTAssertTrue(window.staticTexts["humstead-heading"].exists)
     XCTAssertTrue(
-      window.staticTexts["A quiet place for music and ambience. Player in development."].exists)
+      window.buttons["Play"].waitForExistence(timeout: 10))
     app.typeKey("w", modifierFlags: .command)
     XCTAssertTrue(window.waitForNonExistence(timeout: 5))
     app.activate()

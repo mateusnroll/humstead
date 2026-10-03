@@ -45,7 +45,7 @@ targets:
   HumsteadTests:
     type: bundle.unit-test
     platform: macOS
-    sources: [HumsteadTests]
+    sources: [HumsteadTests, Humstead/Domain, Humstead/Audio, Humstead/Resources]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.tests
