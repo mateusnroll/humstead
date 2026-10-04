@@ -115,7 +115,9 @@ struct DownloadTests {
     let library = local.store()
     _ = await library.load()
     let origin = try DownloadOrigin(server.origin, testing: true)
-    let coordinator = DownloadCoordinator(origin: origin, library: library, bundled: local.bundled)
+    let snapshots = DownloadSnapshots()
+    let coordinator = DownloadCoordinator(
+      origin: origin, library: library, bundled: local.bundled, publish: snapshots.add)
     await coordinator.load()
     await coordinator.refresh(manual: true)
     let first = try await coordinator.plan("extra-music")
@@ -137,6 +139,11 @@ struct DownloadTests {
     var count = 0
     for asset in assets { count += try await server.requests("/" + asset.path).count }
     #expect(count == 4)
+    let updates = snapshots.values
+    #expect(zip(updates, updates.dropFirst()).allSatisfy { $0.sequence < $1.sequence })
+    let progress = updates.filter { $0.activeID == "two-songs" }.map(\.progress)
+    #expect(progress.count > 2)
+    #expect(zip(progress, progress.dropFirst()).allSatisfy { $0 <= $1 })
     let journal = try await server.journal()
     #expect(journal["max_active_audio"] as? Int == 2)
     #expect(try FileManager.default.contentsOfDirectory(atPath: library.staging.path).isEmpty)
@@ -303,4 +310,11 @@ final class DownloadTestClock: @unchecked Sendable {
   var now: Double { lock.withLock { value } }
   var date: Date { Date(timeIntervalSince1970: 1_800_000_000 + now) }
   func advance(_ seconds: Double) { lock.withLock { value += seconds } }
+}
+
+private final class DownloadSnapshots: @unchecked Sendable {
+  private let lock = NSLock()
+  private var snapshots: [DownloadState] = []
+  func add(_ state: DownloadState) { lock.withLock { snapshots.append(state) } }
+  var values: [DownloadState] { lock.withLock { snapshots } }
 }

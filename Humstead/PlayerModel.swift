@@ -6,6 +6,7 @@ final class PlayerModel: ObservableObject {
   @Published private(set) var state = PlaybackState()
   @Published private(set) var settings = MixSettings()
   @Published private(set) var persistenceWarning: String?
+  @Published private(set) var layerMessage: String?
   @Published private(set) var sleepTimer = SleepTimer()
   @Published private(set) var countdown = 0
   @Published var settingsPage = "downloads"
@@ -19,6 +20,7 @@ final class PlayerModel: ObservableObject {
   private var bundled: Catalog?
   private var downloadCoordinator: DownloadCoordinator?
   private var refreshTask: Task<Void, Never>?
+  private var removalTask: Task<Void, Never>?
   @Published private var downloadTask: Task<Void, Never>?
 
   private var controller: AudioController?
@@ -91,10 +93,14 @@ final class PlayerModel: ObservableObject {
         origin: origin, library: library, bundled: catalog,
         publish: {
           [weak self] snapshot in
-          Task { @MainActor [weak self] in self?.downloads = snapshot }
+          Task { @MainActor [weak self] in
+            guard let self, !stopped, snapshot.sequence > downloads.sequence else { return }
+            downloads = snapshot
+          }
         })
       downloadCoordinator = coordinator
       await coordinator.load()
+      guard !stopped else { return }
       refreshTask = Task { [weak self] in
         while !Task.isCancelled {
           await coordinator.refresh(manual: false)
@@ -150,6 +156,7 @@ final class PlayerModel: ObservableObject {
 
   func selectStation(_ id: String) {
     guard !stopped, controller != nil else { return }
+    layerMessage = nil
     settings.selectStation(id)
     controller?.selectStation(settings.currentStationID, requestID: intent())
     controller?.setMix(settings.mix, requestID: intent())
@@ -157,6 +164,7 @@ final class PlayerModel: ObservableObject {
   }
   func selectPreset(_ id: String) {
     guard !stopped, controller != nil else { return }
+    layerMessage = nil
     settings.selectPreset(id)
     controller?.setMix(settings.mix, requestID: intent())
     persist()
@@ -169,14 +177,16 @@ final class PlayerModel: ObservableObject {
         id, enabled: enabled ?? current.enabled, level: level ?? current.level,
         availableSounds: Set(sounds.map(\.id)))
     else {
-      state.error = "Disable an ambience layer before enabling another. The limit is 16."
+      layerMessage = "Disable an ambience layer before enabling another. The limit is 16."
       return
     }
+    layerMessage = nil
     controller?.setMix(settings.mix, requestID: intent())
     persist()
   }
   func resetAmbience() {
     guard !stopped, controller != nil else { return }
+    layerMessage = nil
     settings.resetAmbience()
     controller?.setMix(settings.mix, requestID: intent())
     persist()
@@ -242,16 +252,19 @@ final class PlayerModel: ObservableObject {
     return values.values.sorted { $0.label < $1.label }
   }
   var downloadBusy: Bool { downloads.activeID != nil || downloadTask != nil || removing }
-  func checkForUpdates() { Task { await downloadCoordinator?.refresh(manual: true) } }
+  func checkForUpdates() {
+    guard !stopped else { return }
+    Task { await downloadCoordinator?.refresh(manual: true) }
+  }
   func downloadPlan(_ id: String) async -> DownloadPlan? {
-    guard !downloadBusy, !libraryState.readOnly else { return nil }
+    guard !stopped, !downloadBusy, !libraryState.readOnly else { return nil }
     do { return try await downloadCoordinator?.plan(id) } catch {
       downloadError = "This collection is unavailable. Check for updates and try again."
       return nil
     }
   }
   func install(_ plan: DownloadPlan) {
-    guard !downloadBusy, !libraryState.readOnly else { return }
+    guard !stopped, !downloadBusy, !libraryState.readOnly else { return }
     downloadError = nil
     failedDownloadID = nil
     downloadingCollectionID = plan.record.collection.id
@@ -261,11 +274,14 @@ final class PlayerModel: ObservableObject {
         downloadTask = nil
         downloadingCollectionID = nil
       }
+      guard !stopped, !Task.isCancelled else { return }
       do {
         try await downloadCoordinator.install(plan)
         await refreshLibrary()
       } catch {
-        downloadError = (await downloadCoordinator.snapshot()).message
+        let result = await downloadCoordinator.snapshot()
+        guard !stopped else { return }
+        downloadError = result.message
         if !(error is CancellationError) { failedDownloadID = plan.record.collection.id }
       }
     }
@@ -275,8 +291,10 @@ final class PlayerModel: ObservableObject {
     Task { await downloadCoordinator?.cancel() }
   }
   private func refreshLibrary() async {
-    guard let library, let bundled else { return }
-    libraryState = await library.snapshot()
+    guard !stopped, !Task.isCancelled, let library, let bundled else { return }
+    let snapshot = await library.snapshot()
+    guard !stopped, !Task.isCancelled else { return }
+    libraryState = snapshot
     let catalog = bundled.merging(libraryState)
     let sounds = Set(catalog.assets.filter { $0.kind == "ambience" }.map(\.id))
     store?.setAvailableSounds(sounds)
@@ -284,14 +302,19 @@ final class PlayerModel: ObservableObject {
       persistenceWarning = "Some saved ambience could not be restored."
     }
     await controller?.refreshCatalog(catalog, bundled: bundled, mix: settings.mix)
+    guard !stopped, !Task.isCancelled else { return }
     persist()
   }
   func removeCollection(_ id: String) {
-    guard !downloadBusy, !libraryState.readOnly, let library, let bundled else { return }
+    guard !stopped, !downloadBusy, !libraryState.readOnly, let library, let bundled else { return }
     removing = true
     downloadError = nil
-    Task {
-      defer { removing = false }
+    removalTask = Task {
+      defer {
+        removing = false
+        removalTask = nil
+      }
+      guard !stopped, !Task.isCancelled else { return }
       var remaining = libraryState
       remaining.records.removeAll { $0.collection.id == id }
       let catalog = bundled.merging(remaining)
@@ -299,13 +322,17 @@ final class PlayerModel: ObservableObject {
       do {
         let updated = try settings.validated(availableSounds: sounds)
         await controller?.refreshCatalog(catalog, bundled: bundled, mix: updated.mix)
+        guard !stopped, !Task.isCancelled else { return }
         try await library.remove(id)
         await refreshLibrary()
+        guard !stopped, !Task.isCancelled else { return }
         downloadError =
           "Collection removed. Unavailable ambience is disabled in saved mixes; your levels are remembered."
       } catch {
+        guard !stopped, !Task.isCancelled else { return }
         await controller?.refreshCatalog(
           bundled.merging(libraryState), bundled: bundled, mix: settings.mix)
+        guard !stopped, !Task.isCancelled else { return }
         downloadError = "The collection could not be removed. Your installed library is unchanged."
       }
     }
@@ -317,6 +344,7 @@ final class PlayerModel: ObservableObject {
     timerTask?.cancel()
     refreshTask?.cancel()
     downloadTask?.cancel()
+    removalTask?.cancel()
     Task { await downloadCoordinator?.wake() }
     routes?.stop()
     media?.stop()

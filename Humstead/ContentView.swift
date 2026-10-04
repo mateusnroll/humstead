@@ -185,6 +185,11 @@ struct ContentView: View {
             Text(warning).font(.callout).foregroundStyle(.secondary)
               .accessibilityIdentifier("persistence-warning")
           }
+          if let message = model.layerMessage {
+            Text(message).font(.callout).foregroundStyle(.secondary)
+              .fixedSize(horizontal: false, vertical: true)
+              .accessibilityIdentifier("ambience-message")
+          }
           if let error = model.state.error {
             Text(error).font(.callout).foregroundStyle(.secondary)
               .fixedSize(horizontal: false, vertical: true)

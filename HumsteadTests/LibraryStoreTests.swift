@@ -6,6 +6,91 @@ import Testing
 private final class LibraryTestBundle: NSObject {}
 
 struct LibraryStoreTests {
+  @MainActor @Test func layerLimitFeedbackSurvivesPlaybackUpdates() async throws {
+    let fixture = try LibraryFixture()
+    defer { try? FileManager.default.removeItem(at: fixture.directory) }
+    let forest = try #require(fixture.bundled.asset("forest"))
+    let assets = (0..<17).map { index in
+      DownloadCatalog.Asset(
+        id: "layer-\(index)", kind: "ambience", sha256: forest.sha256,
+        byteLength: forest.byteLength, codec: forest.codec, duration: forest.duration,
+        path: "audio/\(forest.sha256).caf", title: "Forest \(index)", creator: forest.creator,
+        originalSourceURL: forest.sourceURL, creatorProfileURL: forest.profileURL,
+        license: "CC0", licenseVersion: "1.0", licenseURL: forest.licenseURL,
+        attribution: forest.attribution, modification: forest.modification, bundledEquivalent: nil)
+    }
+    let library = fixture.store()
+    _ = await library.load()
+    let staged = library.staging.appendingPathComponent("forest.caf")
+    try FileManager.default.copyItem(
+      at: Catalog.verifiedURL(for: forest, bundle: fixture.bundle), to: staged)
+    let record = InstalledCollection(
+      collection: DownloadCatalog.Collection(
+        id: "many-layers", kind: "ambience", version: 1, label: "Many layers", stationID: nil,
+        assetIDs: assets.map(\.id), totalBytes: assets.reduce(0) { $0 + $1.byteLength }),
+      assets: assets)
+    try await library.install(record, staged: [forest.sha256: staged])
+    let model = PlayerModel(directory: fixture.directory, bundle: fixture.bundle)
+    defer { model.stop() }
+    for _ in 0..<100 where model.state.catalog == nil {
+      try await Task.sleep(for: .milliseconds(20))
+    }
+    try #require(model.state.catalog != nil)
+    for asset in assets.prefix(16) { model.setLayer(asset.id, enabled: true, level: 0) }
+    model.setLayer(assets[16].id, enabled: true, level: 0)
+    let message = try #require(model.layerMessage)
+    let sequence = model.state.sequence
+    model.setVolume(0.13)
+    for _ in 0..<100 where model.state.sequence <= sequence {
+      try await Task.sleep(for: .milliseconds(20))
+    }
+    #expect(model.state.sequence > sequence)
+    #expect(model.layerMessage == message)
+    #expect(model.settings.mix.values.filter { $0.enabled }.count == 16)
+    model.resetAmbience()
+    #expect(model.layerMessage == nil)
+  }
+
+  @Test func unreadableManifestPreservesAudio() async throws {
+    let fixture = try LibraryFixture()
+    defer { try? FileManager.default.removeItem(at: fixture.directory) }
+    let store = fixture.store()
+    _ = await store.load()
+    try await store.install(fixture.record, staged: fixture.staged())
+    let blob = try store.acquire(fixture.asset.metadata).url
+    let manifest = fixture.directory.appendingPathComponent("library.json")
+    let broken = Data("{broken".utf8)
+    try broken.write(to: manifest)
+    let recovered = fixture.store()
+    #expect(await recovered.load().readOnly)
+    await #expect(throws: (any Error).self) { try await recovered.remove("unknown") }
+    #expect(try Data(contentsOf: manifest) == broken)
+    #expect(FileManager.default.fileExists(atPath: blob.path))
+  }
+
+  @MainActor @Test func stopCancelsPendingRemoval() async throws {
+    let fixture = try LibraryFixture()
+    defer { try? FileManager.default.removeItem(at: fixture.directory) }
+    let store = fixture.store()
+    _ = await store.load()
+    try await store.install(fixture.record, staged: fixture.staged())
+    let manifest = fixture.directory.appendingPathComponent("library.json")
+    let original = try Data(contentsOf: manifest)
+    let model = PlayerModel(directory: fixture.directory, bundle: fixture.bundle)
+    for _ in 0..<100 where model.state.catalog == nil {
+      try await Task.sleep(for: .milliseconds(20))
+    }
+    try #require(model.state.catalog != nil)
+    model.removeCollection(fixture.record.collection.id)
+    model.stop()
+    for _ in 0..<100 where model.removing {
+      try await Task.sleep(for: .milliseconds(20))
+    }
+    #expect(!model.removing)
+    #expect(try Data(contentsOf: manifest) == original)
+    #expect(model.downloadError == nil)
+  }
+
   @Test func rejectsMislabeledPCM() throws {
     let fixture = try LibraryFixture()
     defer { try? FileManager.default.removeItem(at: fixture.directory) }

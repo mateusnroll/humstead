@@ -124,9 +124,11 @@ def serve(root, ready, port):
                     return self.respond(403, b'edge denied')
                 if path not in objects:
                     return self.respond(404, b'')
-                if current['fail_audio'] > 0:
-                    with lock:
+                with lock:
+                    fail = state['fail_audio'] > 0
+                    if fail:
                         state['fail_audio'] -= 1
+                if fail:
                     return self.respond(503, b'try later')
                 with lock:
                     if path not in cache:

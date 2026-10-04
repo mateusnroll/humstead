@@ -7,6 +7,7 @@ struct DownloadPlan: Sendable {
 }
 
 struct DownloadState: Sendable {
+  var sequence: UInt64 = 0
   var catalog: DownloadCatalog?
   var refreshing = false
   var activeID: String?
@@ -57,6 +58,10 @@ actor DownloadCoordinator {
       state.message =
         "Online collections are not configured in this build. All local audio is available."
     }
+    emit()
+  }
+  private func emit() {
+    state.sequence += 1
     publish(state)
   }
   func snapshot() -> DownloadState { state }
@@ -67,10 +72,10 @@ actor DownloadCoordinator {
       return
     }
     state.refreshing = true
-    publish(state)
+    emit()
     defer {
       state.refreshing = false
-      publish(state)
+      emit()
     }
     do {
       cache.attemptedAt = date()
@@ -117,7 +122,7 @@ actor DownloadCoordinator {
     state.progress = 0
     state.total = plan.missingBytes
     state.message = nil
-    publish(state)
+    emit()
     let task = Task { try await self.execute(plan, directory: directory, id: id, gate: gate) }
     operation = task
     watcher = Task {
@@ -144,7 +149,7 @@ actor DownloadCoordinator {
         state.message =
           "Some partial downloads could not be removed. Restart Humstead to clean them up."
       }
-      publish(state)
+      emit()
     }
     do {
       try await withTaskCancellationHandler {
@@ -223,7 +228,8 @@ actor DownloadCoordinator {
           },
           progress: { bytes in
             reservation.update(asset.sha256, bytes: bytes)
-            Task { await self.progress(reservation.received, id: id) }
+            let received = reservation.received
+            Task { await self.progress(received, id: id) }
           })
         try Task.checkCancellation()
         try gate.check()
@@ -238,9 +244,9 @@ actor DownloadCoordinator {
     throw TransferError.invalidResponse
   }
   private func progress(_ bytes: Int, id: UUID) {
-    guard operationID == id else { return }
+    guard operationID == id, bytes > state.progress else { return }
     state.progress = bytes
-    publish(state)
+    emit()
   }
   private static func transient(_ error: any Error) -> Bool {
     if case TransferError.status(let status) = error {

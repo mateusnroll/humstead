@@ -105,8 +105,9 @@ final class LibraryStore: @unchecked Sendable {
           try FileManager.default.copyItem(
             at: manifest,
             to: directory.appendingPathComponent("library-recovery-\(UUID().uuidString).json"))
+          state.readOnly = true
           state.warning =
-            "An unreadable library was preserved in a recovery file. Bundled audio is available."
+            "An unreadable library and its audio were preserved. Download changes are disabled; bundled audio is available."
         } catch {
           state.readOnly = true
           state.warning =
