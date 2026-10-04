@@ -106,6 +106,7 @@ struct ContentView: View {
             .labelsHidden()
             .accessibilityLabel("Music volume")
             .accessibilityIdentifier("music-volume")
+            .disabled(model.state.catalog == nil)
             .accessibilityValue("\(Int(model.state.volume * 100)) percent")
           }
           VStack(alignment: .leading, spacing: 16) {

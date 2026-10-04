@@ -31,6 +31,7 @@
 		3F07A2D1A3C8AE1E6E1F59A5 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 53BA853F7B4BE8CC453A2225 /* catalog.json */; };
 		3F2C644C9AAFDABD53C8D5E2 /* cafe.caf in Resources */ = {isa = PBXBuildFile; fileRef = 956964EF244F930A09CBE470 /* cafe.caf */; };
 		3FFA46A3535E089463A0EDDA /* fireplace.caf in Resources */ = {isa = PBXBuildFile; fileRef = F3712A184880B94C072D7386 /* fireplace.caf */; };
+		40FE9A136708284AA5944FAD /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3639535D720E5CF57D349E29 /* PlayerModel.swift */; };
 		545AC465067A8F1EEFC5A655 /* snow-drift.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 407F5DAB7B99964D778659D0 /* snow-drift.m4a */; };
 		58C37939787F266EF2FCC9CA /* MixAudioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CEE89112C3E7B84F36CD17 /* MixAudioTests.swift */; };
 		617DA701C1D4427A12CFD716 /* everything-you-ever-dreamed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */; };
@@ -454,6 +455,7 @@
 				58C37939787F266EF2FCC9CA /* MixAudioTests.swift in Sources */,
 				14024D23B6A61FF015C58818 /* MixSettings.swift in Sources */,
 				DF5C6BD7AD91B46DFB5616C0 /* MixSettingsTests.swift in Sources */,
+				40FE9A136708284AA5944FAD /* PlayerModel.swift in Sources */,
 				0E41B5B5DE42E8E774D5D694 /* ScaffoldTests.swift in Sources */,
 				926BB7622FF7C67C38B7149D /* SettingsStore.swift in Sources */,
 				EC871E883F86CBF91C1F20F9 /* SettingsStoreTests.swift in Sources */,

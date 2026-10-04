@@ -45,7 +45,7 @@ targets:
   HumsteadTests:
     type: bundle.unit-test
     platform: macOS
-    sources: [HumsteadTests, Humstead/Domain, Humstead/Audio, Humstead/Persistence, Humstead/System, Humstead/Resources]
+    sources: [HumsteadTests, Humstead/Domain, Humstead/Audio, Humstead/Persistence, Humstead/System, Humstead/Resources, Humstead/PlayerModel.swift]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.tests

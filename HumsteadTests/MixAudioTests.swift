@@ -5,6 +5,33 @@ import Testing
 private final class MixTestBundle: NSObject {}
 
 struct MixAudioTests {
+  @Test func failedLayerWaitsForExplicitReenable() async throws {
+    let catalog = try Catalog.load(bundle: Bundle(for: MixTestBundle.self))
+    let attempts = LayerStartAttempts()
+    let audio = AudioController(catalog: catalog) { asset, _ in
+      FailingLayerPlayer(id: asset.id, attempts: attempts)
+    }
+    audio.selectStation("mellow", requestID: 1)
+    var mix = ["rain": AmbienceLevel(enabled: true, level: 0.2)]
+    audio.setMix(mix, requestID: 2)
+    audio.setPlaying(true, requestID: 3)
+    #expect(await audio.snapshot().layerErrors["rain"] != nil)
+    #expect(attempts.rain == 1)
+    audio.setPlaying(false, requestID: 4)
+    audio.setPlaying(true, requestID: 5)
+    mix["forest"] = AmbienceLevel(enabled: true, level: 0.2)
+    audio.setMix(mix, requestID: 6)
+    #expect(await audio.snapshot().activeLayers == ["forest"])
+    #expect(attempts.rain == 1)
+    mix["rain"]?.enabled = false
+    audio.setMix(mix, requestID: 7)
+    mix["rain"]?.enabled = true
+    audio.setMix(mix, requestID: 8)
+    #expect(await audio.snapshot().layerErrors["rain"] != nil)
+    #expect(attempts.rain == 2)
+    audio.stop()
+  }
+
   @Test func layerLifecycleAndOrdering() async throws {
     let bundle = Bundle(for: MixTestBundle.self)
     let catalog = try Catalog.load(bundle: bundle)
@@ -58,4 +85,32 @@ struct MixAudioTests {
     controller.stop()
     #expect(await controller.snapshot().isPlaying == false)
   }
+}
+
+private final class LayerStartAttempts: @unchecked Sendable {
+  private let lock = NSLock()
+  private var count = 0
+  func recordRain() { lock.withLock { count += 1 } }
+  var rain: Int { lock.withLock { count } }
+}
+
+private final class FailingLayerPlayer: AudioPlaying {
+  let id: String
+  let attempts: LayerStartAttempts
+  init(id: String, attempts: LayerStartAttempts) {
+    self.id = id
+    self.attempts = attempts
+  }
+  var volume: Float = 0
+  var currentTime: TimeInterval { 0 }
+  func prepare() -> Bool { true }
+  func play() -> Bool {
+    if id == "rain" {
+      attempts.recordRain()
+      return false
+    }
+    return true
+  }
+  func pause() {}
+  func stop() {}
 }

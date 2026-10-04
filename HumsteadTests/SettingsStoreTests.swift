@@ -2,6 +2,27 @@ import Foundation
 import Testing
 
 struct SettingsStoreTests {
+  @MainActor @Test func startupEditsPreserveSavedPreferences() async throws {
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: directory) }
+    var saved = MixSettings()
+    saved.currentStationID = "late-night"
+    saved.musicVolume = 0.22
+    let file = directory.appendingPathComponent("settings.json")
+    try JSONEncoder().encode(saved).write(to: file)
+    let model = PlayerModel(directory: directory, bundle: Bundle(for: SettingsTestBundle.self))
+    model.setVolume(0.9)
+    for _ in 0..<100 where model.state.catalog == nil {
+      try await Task.sleep(for: .milliseconds(20))
+    }
+    #expect(model.state.catalog != nil)
+    #expect(model.settings == saved)
+    model.stop()
+    let persisted = try JSONDecoder().decode(MixSettings.self, from: Data(contentsOf: file))
+    #expect(persisted == saved)
+  }
+
   @Test func atomicRecoveryAndLatestWrite() async throws {
     let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: directory) }
@@ -54,6 +75,8 @@ struct SettingsStoreTests {
     try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: directory.path)
   }
 }
+
+private final class SettingsTestBundle: NSObject {}
 
 private final class PersistenceWarnings: @unchecked Sendable {
   private let lock = NSLock()

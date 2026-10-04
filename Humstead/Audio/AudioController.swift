@@ -317,7 +317,8 @@ final class AudioController: @unchecked Sendable {
   private func startLayers(atTime: TimeInterval? = nil) {
     let time =
       atTime ?? (player?.deviceCurrentTime ?? layers.values.first?.deviceCurrentTime ?? 0) + 0.02
-    for (id, layer) in layers where !state.activeLayers.contains(id) {
+    for (id, layer) in layers
+    where !state.activeLayers.contains(id) && state.layerErrors[id] == nil {
       if layer.play(atTime: time) {
         state.activeLayers.insert(id)
       } else {

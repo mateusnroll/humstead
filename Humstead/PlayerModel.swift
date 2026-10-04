@@ -17,9 +17,12 @@ final class PlayerModel: ObservableObject {
   private var stopped = false
   private let clockStart = ContinuousClock.now
 
-  init() {
-    var directory = FileManager.default.urls(
-      for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Humstead")
+  init(directory suppliedDirectory: URL? = nil, bundle: Bundle = .main) {
+    var directory =
+      suppliedDirectory
+      ?? FileManager.default.urls(
+        for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent(
+        "Humstead")
     let arguments = ProcessInfo.processInfo.arguments
     if Bundle.main.bundleIdentifier == "com.mateusnroll.humstead.testing",
       let index = arguments.firstIndex(of: "--test-settings"), arguments.indices.contains(index + 1)
@@ -38,7 +41,7 @@ final class PlayerModel: ObservableObject {
       guard !stopped else { return }
       settings = loaded.settings
       persistenceWarning = loaded.warning
-      controller = AudioController(bundle: .main, settings: settings) { [weak self] state in
+      controller = AudioController(bundle: bundle, settings: settings) { [weak self] state in
         Task { @MainActor [weak self] in self?.receive(state) }
       }
       media = SystemMediaBridge { [weak self] command in
@@ -85,24 +88,27 @@ final class PlayerModel: ObservableObject {
   private func persist() { store?.save(settings) }
 
   func selectStation(_ id: String) {
-    guard controller != nil else { return }
+    guard !stopped, controller != nil else { return }
     settings.selectStation(id)
     controller?.selectStation(settings.currentStationID, requestID: intent())
     controller?.setMix(settings.mix, requestID: intent())
     persist()
   }
   func selectPreset(_ id: String) {
+    guard !stopped, controller != nil else { return }
     settings.selectPreset(id)
     controller?.setMix(settings.mix, requestID: intent())
     persist()
   }
   func setLayer(_ id: String, enabled: Bool? = nil, level: Double? = nil) {
+    guard !stopped, controller != nil else { return }
     let current = settings.mix[id] ?? AmbienceLevel()
     settings.setLayer(id, enabled: enabled ?? current.enabled, level: level ?? current.level)
     controller?.setMix(settings.mix, requestID: intent())
     persist()
   }
   func resetAmbience() {
+    guard !stopped, controller != nil else { return }
     settings.resetAmbience()
     controller?.setMix(settings.mix, requestID: intent())
     persist()
@@ -119,6 +125,7 @@ final class PlayerModel: ObservableObject {
     controller?.next(requestID: intent())
   }
   func setVolume(_ volume: Double) {
+    guard !stopped, controller != nil else { return }
     guard volume.isFinite, (0...1).contains(volume) else { return }
     settings.musicVolume = volume
     state.volume = Float(volume)
