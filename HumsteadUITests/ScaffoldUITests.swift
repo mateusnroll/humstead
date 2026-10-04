@@ -5,6 +5,7 @@ final class ScaffoldUITests: XCTestCase {
   func testVisibleWindowLifecycle() throws {
     continueAfterFailure = false
     let app = XCUIApplication()
+    app.launchArguments = ["--test-settings", "ScaffoldUITests-\(UUID().uuidString)"]
     app.launch()
     let window = app.windows["Humstead"]
     XCTAssertTrue(window.waitForExistence(timeout: 10))
@@ -13,7 +14,8 @@ final class ScaffoldUITests: XCTestCase {
       window.buttons["Play"].waitForExistence(timeout: 10))
     app.typeKey("w", modifierFlags: .command)
     XCTAssertTrue(window.waitForNonExistence(timeout: 5))
-    app.activate()
+    app.statusItems.firstMatch.click()
+    app.menuItems["Show Humstead"].click()
     XCTAssertTrue(window.waitForExistence(timeout: 5))
     app.typeKey("q", modifierFlags: .command)
     XCTAssertTrue(app.wait(for: .notRunning, timeout: 5))

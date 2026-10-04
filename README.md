@@ -1,6 +1,6 @@
 # Humstead
 
-A free native macOS home for lofi music and ambience. Humstead is under development. The local station-player milestone provides Mellow, Jazzy and Late Night, shuffled continuous playback, music volume and offline creator credits. Ambience controls, saved preferences, system media controls and downloads follow in later milestones.
+A free native macOS home for lofi music and ambience. Humstead is under development. The local station-player milestone provides Mellow, Jazzy and Late Night, shuffled continuous playback, music volume and offline creator credits. The current mix milestone adds four simultaneous ambience layers, five remembered presets per station, optional sleep timer, menu-bar playback and native media/lifecycle adapters. Downloads and privacy controls follow in later milestones.
 
 ## Development
 
@@ -24,9 +24,9 @@ Full verification requires an unlocked logged-in desktop with Xcode UI testing p
 
 ## Player walkthrough
 
-Launch with scripts/dev, choose a station and press Play. Next advances without starting paused playback. Music volume zero pauses the track at its current position; raising it resumes only if playback is requested. Space toggles playback when the player background has focus; focused controls retain their native key handling. Playback → Play/Pause (Command-P) and Next track (Command-Right) expose keyboard commands. Command-comma opens Credits. Playback starts paused on each launch in this milestone.
+Launch with scripts/dev, choose a station and press Play. Next advances without starting paused playback. Music volume zero pauses the track at its current position; raising it resumes only if playback is requested. Space toggles playback when the player background has focus; focused controls retain their native key handling. Playback → Play/Pause (Command-P) and Next track (Command-Right) expose keyboard commands. Command-comma opens Credits. Relaunch restores the saved station, preset and volumes paused. Choose an ambience preset, toggle layers and adjust their volumes; Reset ambience restores that preset’s original mix. Closing the window keeps playback available from the Humstead menu-bar item. The optional15/30/60-minute sleep timer fades out over five seconds; cancel it to continue indefinitely. System sleep or an observed output-route change pauses playback; wake/reconnect never autoplays.
 
-The development audio is not yet approved for release. The app is intentionally compact and uses standard macOS focus, menus, links and sliders. It has no decorative animation.
+All bundled recordings have listening approval; final preset-level tuning and physical headphone/Now Playing/VoiceOver acceptance are still pending. The current build is not approved for distribution. The app is intentionally compact and uses standard macOS focus, menus, links and sliders. It has no decorative animation.
 
 ## Project contracts
 

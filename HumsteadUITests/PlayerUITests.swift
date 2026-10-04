@@ -4,6 +4,7 @@ import XCTest
 final class PlayerUITests: XCTestCase {
   func testStationPlaybackControls() throws {
     let app = XCUIApplication()
+    app.launchArguments = ["--test-settings", "PlayerUITests-\(UUID().uuidString)"]
     app.launch()
     let window = app.windows["Humstead"]
     XCTAssertTrue(window.buttons["Play"].waitForExistence(timeout: 10))
@@ -24,6 +25,7 @@ final class PlayerUITests: XCTestCase {
 
   func testOfflineStationJourney() throws {
     let app = XCUIApplication()
+    app.launchArguments = ["--test-settings", "PlayerUITests-\(UUID().uuidString)"]
     app.launch()
     let window = app.windows["Humstead"]
     XCTAssertTrue(window.buttons["Play"].waitForExistence(timeout: 10))
@@ -35,7 +37,9 @@ final class PlayerUITests: XCTestCase {
     let slider = window.sliders["music-volume"]
     for station in ["Mellow", "Jazzy", "Late Night"] {
       window.popUpButtons["Station"].click()
-      app.menuItems[station].click()
+      let choice = try XCTUnwrap(
+        app.menuItems.matching(identifier: station).allElementsBoundByIndex.first { $0.isHittable })
+      choice.click()
       let prepared = NSPredicate { _, _ in
         titles[station]!.contains(window.staticTexts["track-title"].value as? String ?? "")
       }
@@ -71,6 +75,7 @@ final class PlayerUITests: XCTestCase {
   }
   func testMinimumWindowLayout() throws {
     let app = XCUIApplication()
+    app.launchArguments = ["--test-settings", "PlayerUITests-\(UUID().uuidString)"]
     app.launch()
     let window = app.windows["Humstead"]
     XCTAssertTrue(window.buttons["Play"].waitForExistence(timeout: 10))

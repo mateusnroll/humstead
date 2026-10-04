@@ -4,6 +4,7 @@ import XCTest
 final class CreditsUITests: XCTestCase {
   func testOfflineNoticesAndLinks() throws {
     let app = XCUIApplication()
+    app.launchArguments = ["--test-settings", "CreditsUITests-\(UUID().uuidString)"]
     app.launch()
     app.typeKey(",", modifierFlags: .command)
     let credits = app.windows["Credits"]
