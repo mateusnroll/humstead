@@ -8,10 +8,10 @@ struct CreditsView: View {
       VStack(alignment: .leading, spacing: 24) {
         Text("Credits").font(.largeTitle)
         Text(
-          "Made by generous people. Every recording is offered under CC0 1.0. Visit the creators, share their work, and explore their music."
+          "Made by generous people. Each recording keeps its own open license. Visit the creators, share their work, and explore their music."
         )
         .foregroundStyle(.secondary)
-        ForEach(model.state.catalog?.assets ?? []) { asset in
+        ForEach(model.credits) { asset in
           VStack(alignment: .leading, spacing: 8) {
             Text(asset.title).font(.headline)
             Text(asset.attribution)
@@ -21,7 +21,9 @@ struct CreditsView: View {
               Link(profile.absoluteString, destination: profile)
                 .accessibilityIdentifier("creator-profile")
             }
-            Link("CC0 1.0 — Public Domain Dedication", destination: asset.licenseURL)
+            Link(
+              asset.license == "CC0-1.0" ? "CC0 1.0 — Public Domain Dedication" : asset.license,
+              destination: asset.licenseURL)
             Text(asset.modification).font(.caption).foregroundStyle(.secondary)
           }
           .textSelection(.enabled)

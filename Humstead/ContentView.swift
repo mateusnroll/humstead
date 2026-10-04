@@ -50,15 +50,9 @@ struct ContentView: View {
                 Link("Original recording", destination: track.sourceURL)
                   .focused($focusedControl, equals: .original)
                   .id(Control.original)
-                if #available(macOS 14, *) {
-                  SettingsLink { Text("Credits") }.buttonStyle(.link)
-                    .focused($focusedControl, equals: .credits)
-                    .id(Control.credits)
-                } else {
-                  Button("Credits", action: openCredits).buttonStyle(.link)
-                    .focused($focusedControl, equals: .credits)
-                    .id(Control.credits)
-                }
+                CreditsButton(model: model)
+                  .focused($focusedControl, equals: .credits)
+                  .id(Control.credits)
               }
               .font(.callout)
             }
@@ -122,10 +116,11 @@ struct ContentView: View {
             Button("Reset ambience", action: model.resetAmbience)
               .focused($focusedControl, equals: .reset)
               .id(Control.reset)
-            ForEach(MixSettings.soundIDs, id: \.self) { id in
+            ForEach(model.sounds) { sound in
+              let id = sound.id
               let title =
                 ["rain": "Rain", "cafe": "Café", "fireplace": "Fireplace", "forest": "Forest"][id]
-                ?? id
+                ?? sound.title
               let level = model.settings.mix[id] ?? AmbienceLevel()
               VStack(alignment: .leading, spacing: 6) {
                 Toggle(
@@ -133,6 +128,7 @@ struct ContentView: View {
                   isOn: Binding(get: { level.enabled }, set: { model.setLayer(id, enabled: $0) })
                 )
                 .toggleStyle(.checkbox)
+                .accessibilityIdentifier("ambience-toggle-\(id)")
                 .focused($focusedControl, equals: .layerToggle(id))
                 .id(Control.layerToggle(id))
                 Slider(
@@ -182,6 +178,9 @@ struct ContentView: View {
             }
           }
           .disabled(model.state.catalog == nil)
+          if let warning = model.libraryState.warning {
+            Text(warning).font(.callout).foregroundStyle(.secondary)
+          }
           if let warning = model.persistenceWarning {
             Text(warning).font(.callout).foregroundStyle(.secondary)
               .accessibilityIdentifier("persistence-warning")

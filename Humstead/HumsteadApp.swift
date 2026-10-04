@@ -27,7 +27,7 @@ struct HumsteadApp: App {
       Image(systemName: "waveform").accessibilityLabel("Humstead")
     }
     Settings {
-      CreditsView(model: model)
+      SettingsView(model: model)
     }
   }
 }

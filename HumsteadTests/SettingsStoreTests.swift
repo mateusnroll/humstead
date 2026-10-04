@@ -2,6 +2,30 @@ import Foundation
 import Testing
 
 struct SettingsStoreTests {
+  @Test func maximumOptionalMixesRemainReadable() async throws {
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: directory) }
+    let sounds = Set(
+      (0..<2000).map { String(repeating: "s", count: 76) + String(format: "%04d", $0) })
+    let layers = Dictionary(
+      uniqueKeysWithValues: sounds.map { ($0, AmbienceLevel(enabled: false, level: 0.17)) })
+    var settings = MixSettings()
+    for station in MixSettings.stationIDs {
+      settings.stationSettings[station] = MixSettings.Station(
+        selectedPresetID: "forest",
+        presetMixes: Dictionary(uniqueKeysWithValues: MixSettings.presets.map { ($0.id, layers) }))
+    }
+    let store = SettingsStore(directory: directory, availableSounds: sounds)
+    _ = await store.load()
+    store.save(settings)
+    #expect(store.flush(timeout: 1))
+    let data = try Data(contentsOf: directory.appendingPathComponent("settings.json"))
+    #expect(data.count > 2_000_000)
+    let loaded = await SettingsStore(directory: directory, availableSounds: sounds).load()
+    #expect(loaded.warning == nil)
+    #expect(try loaded.settings == settings.validated(availableSounds: sounds))
+  }
+
   @MainActor @Test func startupEditsPreserveSavedPreferences() async throws {
     let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

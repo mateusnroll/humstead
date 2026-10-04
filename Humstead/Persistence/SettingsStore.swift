@@ -7,15 +7,22 @@ final class SettingsStore: @unchecked Sendable {
     var readOnly = false
   }
   private struct Header: Decodable { let schemaVersion: Int }
+  // Accommodates 2,000 optional IDs in all 15 station/preset mixes.
+  private static let maximumBytes = 8_000_000
   private let queue = DispatchQueue(label: "com.mateusnroll.humstead.settings")
   private let directory: URL
   private let warning: @Sendable (String) -> Void
   private var readOnly = false
+  private var availableSounds: Set<String>
   private var pending: MixSettings?
   private var saveWork: DispatchWorkItem?
   private var generation = 0
 
-  init(directory: URL, warning: @escaping @Sendable (String) -> Void = { _ in }) {
+  init(
+    directory: URL, availableSounds: Set<String> = Set(MixSettings.soundIDs),
+    warning: @escaping @Sendable (String) -> Void = { _ in }
+  ) {
+    self.availableSounds = availableSounds
     self.directory = directory
     self.warning = warning
   }
@@ -29,6 +36,14 @@ final class SettingsStore: @unchecked Sendable {
   private func read() -> Loaded {
     guard FileManager.default.fileExists(atPath: file.path) else { return Loaded() }
     do {
+      let size = try file.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+      guard size <= Self.maximumBytes else {
+        readOnly = true
+        return Loaded(
+          warning:
+            "These settings exceed the supported size. The original file is unchanged and saving is disabled.",
+          readOnly: true)
+      }
       let data = try Data(contentsOf: file)
       if let header = try? JSONDecoder().decode(Header.self, from: data), header.schemaVersion > 1 {
         readOnly = true
@@ -37,8 +52,9 @@ final class SettingsStore: @unchecked Sendable {
             "These settings were saved by a newer Humstead. Defaults are shown; your file will not be changed.",
           readOnly: true)
       }
-      guard data.count <= 2_000_000 else { throw SettingsError.invalid }
-      let settings = try JSONDecoder().decode(MixSettings.self, from: data).validated()
+      guard data.count <= Self.maximumBytes else { throw SettingsError.invalid }
+      let settings = try JSONDecoder().decode(MixSettings.self, from: data).validated(
+        availableSounds: availableSounds)
       return Loaded(settings: settings)
     } catch {
       do {
@@ -58,10 +74,13 @@ final class SettingsStore: @unchecked Sendable {
           "Your unreadable settings were preserved in a recovery file. Humstead is using defaults.")
     }
   }
+  func setAvailableSounds(_ sounds: Set<String>) {
+    queue.async { self.availableSounds = sounds }
+  }
   func save(_ settings: MixSettings) {
     queue.async { [self] in
       guard !readOnly else { return }
-      do { pending = try settings.validated() } catch {
+      do { pending = try settings.validated(availableSounds: availableSounds) } catch {
         warning("These settings could not be saved. Your last saved mix is unchanged.")
         return
       }
@@ -82,7 +101,9 @@ final class SettingsStore: @unchecked Sendable {
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
       let encoder = JSONEncoder()
       encoder.outputFormatting = [.sortedKeys]
-      try encoder.encode(pending).write(to: file, options: .atomic)
+      let data = try encoder.encode(pending)
+      guard data.count <= Self.maximumBytes else { throw SettingsError.invalid }
+      try data.write(to: file, options: .atomic)
       self.pending = nil
     } catch {
       warning("Your changes could not be saved. Your last saved mix is unchanged.")

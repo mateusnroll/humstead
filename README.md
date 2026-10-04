@@ -1,6 +1,6 @@
 # Humstead
 
-A free native macOS home for lofi music and ambience. Humstead is under development. The local station-player milestone provides Mellow, Jazzy and Late Night, shuffled continuous playback, music volume and offline creator credits. The current mix milestone adds four simultaneous ambience layers, five remembered presets per station, optional sleep timer, menu-bar playback and native media/lifecycle adapters. Downloads and privacy controls follow in later milestones.
+A free native macOS home for lofi music and ambience. Humstead is under development. The local station-player milestone provides Mellow, Jazzy and Late Night, shuffled continuous playback, music volume and offline creator credits. The current mix milestone adds four simultaneous ambience layers, five remembered presets per station, optional sleep timer, menu-bar playback and native media/lifecycle adapters. Optional downloads add verified local collections, cancellable updates, offline attribution and emergency shutdown. Privacy controls follow in the next milestone.
 
 ## Development
 
@@ -24,9 +24,17 @@ Full verification requires an unlocked logged-in desktop with Xcode UI testing p
 
 ## Player walkthrough
 
-Launch with scripts/dev, choose a station and press Play. Next advances without starting paused playback. Music volume zero pauses the track at its current position; raising it resumes only if playback is requested. Space toggles playback when the player background has focus; focused controls retain their native key handling. Playback → Play/Pause (Command-P) and Next track (Command-Right) expose keyboard commands. Command-comma opens Credits. Relaunch restores the saved station, preset and volumes paused. Choose an ambience preset, toggle layers and adjust their volumes; Reset ambience restores that preset’s original mix. Closing the window keeps playback available from the Humstead menu-bar item. The optional15/30/60-minute sleep timer fades out over five seconds; cancel it to continue indefinitely. System sleep or an observed output-route change pauses playback; wake/reconnect never autoplays.
+Launch with scripts/dev, choose a station and press Play. Next advances without starting paused playback. Music volume zero pauses the track at its current position; raising it resumes only if playback is requested. Space toggles playback when the player background has focus; focused controls retain their native key handling. Playback → Play/Pause (Command-P) and Next track (Command-Right) expose keyboard commands. Command-comma opens Settings; the player’s Credits link selects Credits directly. Relaunch restores the saved station, preset and volumes paused. Choose an ambience preset, toggle layers and adjust their volumes; Reset ambience restores that preset’s original mix. Closing the window keeps playback available from the Humstead menu-bar item. The optional15/30/60-minute sleep timer fades out over five seconds; cancel it to continue indefinitely. System sleep or an observed output-route change pauses playback; wake/reconnect never autoplays.
 
 All bundled recordings have listening approval; final preset-level tuning and physical headphone/Now Playing/VoiceOver acceptance are still pending. The current build is not approved for distribution. The app is intentionally compact and uses standard macOS focus, menus, links and sliders. It has no decorative animation.
+
+## Optional downloads
+
+Settings → Downloads shows collection versions and sizes. Confirm the frozen version and missing bytes before download; Cancel leaves installed audio intact. Removing a collection switches its active music to bundled music in the same station and disables removed ambience while remembering its saved levels. Original presets remain bundled. Files and artist notices work offline after installation.
+
+Development builds omit a production origin and issue no public download requests. A release builder may supply the fixed HTTPS origin through the HumsteadDownloadOrigin Info.plist key; remote catalogs cannot change endpoints. No cloud provisioning is included. The [download operations runbook](docs/DOWNLOAD-OPERATIONS.md) covers the separate production edge setup and shutdown drill.
+
+Full verification launches the loopback fixture outside the app via scripts/with-download-fixture, using port38476 only during tests; an occupied port fails instead of adopting another server. The strict Testing app accepts --test-download-origin http://127.0.0.1:38476 and isolated --test-settings names. Release ignores test arguments. Tests reuse approved bundled recordings without changing attribution. scripts/test-download-shutdown independently verifies cached/uncached edge denial and zero denied origin reads in the local fixture; it does not claim Cloudflare enforcement. To run focused download UI tests, wrap the usual xcodebuild test command with scripts/with-download-fixture.
 
 ## Project contracts
 

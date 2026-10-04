@@ -6,8 +6,9 @@ final class CreditsUITests: XCTestCase {
     let app = XCUIApplication()
     app.launchArguments = ["--test-settings", "CreditsUITests-\(UUID().uuidString)"]
     app.launch()
-    app.typeKey(",", modifierFlags: .command)
-    let credits = app.windows["Credits"]
+    XCTAssertTrue(app.windows["Humstead"].links["Credits"].waitForExistence(timeout: 10))
+    app.windows["Humstead"].links["Credits"].click()
+    let credits = app.windows.containing(.staticText, identifier: "Credits").firstMatch
     XCTAssertTrue(credits.waitForExistence(timeout: 10))
     XCTAssertTrue(credits.staticTexts["Credits"].exists)
     XCTAssertEqual(credits.links.matching(identifier: "original-source").count, 13)

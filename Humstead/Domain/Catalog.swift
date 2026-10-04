@@ -86,3 +86,23 @@ struct Catalog: Codable, Sendable {
 }
 
 enum CatalogError: Error { case invalid }
+
+extension Catalog {
+  func merging(_ library: LibrarySnapshot) -> Catalog {
+    var indexed: [String: Asset] = [:]
+    for record in library.records {
+      for asset in record.assets where !library.unavailable.contains(asset.id) {
+        indexed[asset.id] = asset.metadata
+      }
+    }
+    return Catalog(
+      schemaVersion: schemaVersion,
+      stations: stations.map { station in
+        let extras = library.records.filter { $0.collection.stationID == station.id }
+          .flatMap { $0.collection.assetIDs }.filter { indexed[$0] != nil }
+        return Station(
+          id: station.id, title: station.title,
+          assetIDs: station.assetIDs + Set(extras).sorted())
+      }, assets: assets + indexed.values.sorted { $0.id < $1.id })
+  }
+}

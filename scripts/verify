@@ -3,8 +3,9 @@ set -euo pipefail
 source "$(dirname "$0")/environment"
 scripts/check
 scripts/test-harness
+scripts/test-download-shutdown
 scripts/build-for-testing
 RESULT="$ROOT/.build/results/verify-$(date -u +%Y%m%dT%H%M%S)-$$.xcresult"
-xcodebuild "${BUILD_ARGS[@]}" -configuration Testing -testPlan Humstead -resultBundlePath "$RESULT" test-without-building
+scripts/with-download-fixture xcodebuild "${BUILD_ARGS[@]}" -configuration Testing -testPlan Humstead -resultBundlePath "$RESULT" test-without-building
 scripts/inspect-app Testing
 scripts/build

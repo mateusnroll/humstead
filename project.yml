@@ -38,6 +38,8 @@ targets:
         ENABLE_OUTGOING_NETWORK_CONNECTIONS: YES
         ENABLE_DEBUG_DYLIB: NO
         INFOPLIST_KEY_CFBundleDisplayName: Humstead
+        HUMSTEAD_DOWNLOAD_ORIGIN: ""
+        INFOPLIST_KEY_HumsteadDownloadOrigin: "$(HUMSTEAD_DOWNLOAD_ORIGIN)"
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.music
       configs:
         Testing:
@@ -45,7 +47,7 @@ targets:
   HumsteadTests:
     type: bundle.unit-test
     platform: macOS
-    sources: [HumsteadTests, Humstead/Domain, Humstead/Audio, Humstead/Persistence, Humstead/System, Humstead/Resources, Humstead/PlayerModel.swift]
+    sources: [HumsteadTests, Humstead/Domain, Humstead/Downloads, Humstead/Audio, Humstead/Persistence, Humstead/System, Humstead/Resources, Humstead/PlayerModel.swift]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.tests

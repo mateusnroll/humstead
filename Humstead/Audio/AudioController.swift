@@ -24,9 +24,13 @@ extension AudioPlaying {
 
 nonisolated final class NativeAudioPlayer: NSObject, AudioPlaying, AVAudioPlayerDelegate {
   private let player: AVAudioPlayer
+  private let lease: AudioFileLease?
   private let completion: @Sendable (Bool) -> Void
 
-  init(url: URL, completion: @escaping @Sendable (Bool) -> Void) throws {
+  init(url: URL, lease: AudioFileLease? = nil, completion: @escaping @Sendable (Bool) -> Void)
+    throws
+  {
+    self.lease = lease
     player = try AVAudioPlayer(contentsOf: url)
     self.completion = completion
     super.init()
@@ -102,16 +106,18 @@ final class AudioController: @unchecked Sendable {
 
   init(
     bundle: Bundle, settings: MixSettings = MixSettings(),
+    catalog: Catalog? = nil, library: LibraryStore? = nil,
     publish: @escaping @Sendable (PlaybackState) -> Void
   ) {
     factory = { asset, completion in
-      let url = try Catalog.verifiedURL(for: asset, bundle: bundle)
-      return try NativeAudioPlayer(url: url, completion: completion)
+      let lease = try library?.acquire(asset)
+      let url = try lease?.url ?? Catalog.verifiedURL(for: asset, bundle: bundle)
+      return try NativeAudioPlayer(url: url, lease: lease, completion: completion)
     }
     self.publish = publish
     queue.async { [self] in
       do {
-        state.catalog = try Catalog.load(bundle: bundle)
+        state.catalog = try catalog ?? Catalog.load(bundle: bundle)
         state.volume = Float(settings.musicVolume)
         select(settings.currentStationID)
         configureMix(settings.mix)
@@ -119,6 +125,31 @@ final class AudioController: @unchecked Sendable {
         state.error = "The bundled library could not be read. Please reinstall Humstead."
       }
       emit()
+    }
+  }
+
+  func refreshCatalog(_ catalog: Catalog, bundled: Catalog, mix: [String: AmbienceLevel]) async {
+    await withCheckedContinuation { continuation in
+      queue.async { [self] in
+        let old = state.catalog
+        let replaceMusic =
+          state.trackID.map { catalog.asset($0)?.sha256 != old?.asset($0)?.sha256 } ?? false
+        for id in Array(layers.keys) where catalog.asset(id)?.sha256 != old?.asset(id)?.sha256 {
+          layers.removeValue(forKey: id)?.stop()
+          state.activeLayers.remove(id)
+          layerGenerations[id, default: 0] += 1
+        }
+        state.catalog = catalog
+        failedTracks.removeAll()
+        if replaceMusic {
+          bag.replaceTracks(bundled.stations.first { $0.id == state.stationID }?.assetIDs ?? [])
+          prepareNext()
+        }
+        bag.replaceTracks(catalog.stations.first { $0.id == state.stationID }?.assetIDs ?? [])
+        configureMix(mix)
+        emit()
+        continuation.resume()
+      }
     }
   }
 

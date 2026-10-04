@@ -1,7 +1,7 @@
 import Foundation
 
 struct ShuffleBag {
-  private let tracks: [String]
+  private var tracks: [String]
   private let shuffle: ([String]) -> [String]
   private var remaining: [String] = []
   private var previous: String?
@@ -9,6 +9,12 @@ struct ShuffleBag {
   init(tracks: [String], shuffle: @escaping ([String]) -> [String] = { $0.shuffled() }) {
     self.tracks = tracks
     self.shuffle = shuffle
+  }
+
+  mutating func replaceTracks(_ tracks: [String]) {
+    guard self.tracks != tracks else { return }
+    self.tracks = tracks
+    remaining = []
   }
 
   mutating func next() -> String? {
