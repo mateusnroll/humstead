@@ -22,7 +22,8 @@ struct ContentView: View {
             Image(systemName: "waveform").foregroundStyle(.secondary).accessibilityHidden(true)
           }
           Picker(
-            "Station", selection: Binding(get: { model.state.stationID }, set: model.selectStation)
+            "Station",
+            selection: Binding(get: { model.state.stationID }, set: { model.selectStation($0) })
           ) {
             ForEach(model.state.catalog?.stations ?? []) { station in
               Text(station.title).tag(station.id)
@@ -90,7 +91,8 @@ struct ContentView: View {
                 .foregroundStyle(.secondary).monospacedDigit().accessibilityHidden(true)
             }
             Slider(
-              value: Binding(get: { Double(model.state.volume) }, set: model.setVolume), in: 0...1,
+              value: Binding(get: { Double(model.state.volume) }, set: { model.setVolume($0) }),
+              in: 0...1,
               step: 0.01
             ) {
               Text("Music volume")
@@ -106,7 +108,7 @@ struct ContentView: View {
           Group {
             Picker(
               "Ambience preset",
-              selection: Binding(get: { model.settings.presetID }, set: model.selectPreset)
+              selection: Binding(get: { model.settings.presetID }, set: { model.selectPreset($0) })
             ) {
               ForEach(MixSettings.presets) { preset in Text(preset.title).tag(preset.id) }
             }
@@ -156,7 +158,7 @@ struct ContentView: View {
             }
             Picker(
               "Sleep timer",
-              selection: Binding(get: { model.sleepTimer.minutes }, set: model.startTimer)
+              selection: Binding(get: { model.sleepTimer.minutes }, set: { model.startTimer($0) })
             ) {
               Text("Off").tag(0)
               ForEach([15, 30, 60], id: \.self) { minutes in Text("\(minutes) minutes").tag(minutes)
