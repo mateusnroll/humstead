@@ -8,7 +8,7 @@ struct PrivacyView: View {
         Text("Privacy").font(.title2)
         Toggle(
           "Share weekly usage summaries",
-          isOn: Binding(get: { model.usageEnabled }, set: model.setUsageEnabled)
+          isOn: Binding(get: { model.usageEnabled }, set: { model.setUsageEnabled($0) })
         )
         .disabled(!model.usageAvailable || model.usageChanging)
         if !model.usageAvailable {
