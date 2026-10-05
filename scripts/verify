@@ -1,11 +1,67 @@
 #!/bin/bash
 set -euo pipefail
 source "$(dirname "$0")/environment"
+prepare_bounded_library() {
+  python3 - <<'PY'
+import json
+import pathlib
+import shutil
+import uuid
+
+root = pathlib.Path.cwd()
+pointer = root / '.build/bounded-library-state.json'
+base = pathlib.Path.home() / 'Library/Containers/com.mateusnroll.humstead.testing/Data/Library/Application Support/Humstead/Tests'
+name = 'bounded-ui-' + str(uuid.uuid4())
+directory = base / name
+directory.mkdir(parents=True, exist_ok=False)
+(directory / 'Audio').mkdir()
+catalog = json.loads((root / 'Humstead/Resources/catalog.json').read_text())
+source = next(asset for asset in catalog['assets'] if asset['id'] == 'forest')
+sha = source['sha256']
+assets = []
+for index in range(2000):
+    asset = dict(id=f'workload-{index:04d}', kind='ambience', sha256=sha,
+                 byteLength=source['byteLength'], codec=source['codec'], duration=source['duration'],
+                 path=f'audio/{sha}.caf', title=f'Workload Forest {index:04d}', creator=source['creator'],
+                 originalSourceURL=source['sourceURL'], creatorProfileURL=source.get('profileURL'),
+                 license='CC0', licenseVersion='1.0', licenseURL='https://creativecommons.org/publicdomain/zero/1.0/',
+                 attribution=source['attribution'], modification=source['modification'])
+    assets.append(asset)
+collections = [dict(id=f'collection-{index:03d}', kind='ambience', version=1,
+                    label=f'Collection {index:03d}', assetIDs=[a['id'] for a in assets[index*10:index*10+10]],
+                    totalBytes=source['byteLength']*10) for index in range(200)]
+manifest = dict(schemaVersion=1, catalogVersion=1, assets=assets, collections=collections)
+encoded = json.dumps(manifest, separators=(',', ':')).encode()
+assert len(encoded) <= 2_000_000
+(directory / 'library.json').write_bytes(encoded)
+levels = {asset['id']: dict(enabled=True, level=0.01) for asset in assets[:16]}
+settings = dict(schemaVersion=1, currentStationID='mellow', musicVolume=0.03,
+                analyticsChoice='disabled', stationSettings={'mellow': dict(selectedPresetID='music-only', presetMixes={'music-only': levels})})
+(directory / 'settings.json').write_text(json.dumps(settings))
+shutil.copyfile(root / 'Humstead/Resources/Audio/forest.caf', directory / 'Audio' / f'{sha}.caf')
+previous = json.loads(pointer.read_text()) if pointer.exists() else None
+pointer.write_text(json.dumps(dict(name=name)))
+if previous:
+    old = previous.get('name', '')
+    if old.startswith('bounded-ui-') and len(old) == len('bounded-ui-') + 36:
+        uuid.UUID(old[len('bounded-ui-'):])
+        old_directory = base / old
+        if old_directory.is_dir() and not old_directory.is_symlink():
+            shutil.rmtree(old_directory)
+print('Prepared isolated 2000-asset/200-collection UI fixture: ' + name)
+PY
+}
+if [[ "${1:-}" == "--prepare-bounded-library" ]]; then
+  prepare_bounded_library
+  exit 0
+fi
+[[ $# == 0 ]]
 scripts/check
 scripts/test-harness
 scripts/test-download-shutdown
 scripts/build-for-testing
+prepare_bounded_library
 RESULT="$ROOT/.build/results/verify-$(date -u +%Y%m%dT%H%M%S)-$$.xcresult"
-scripts/with-download-fixture xcodebuild "${BUILD_ARGS[@]}" -configuration Testing -testPlan Humstead -resultBundlePath "$RESULT" test-without-building
+scripts/with-download-fixture scripts/with-analytics-fixture xcodebuild "${BUILD_ARGS[@]}" -configuration Testing -testPlan Humstead -resultBundlePath "$RESULT" test-without-building
 scripts/inspect-app Testing
 scripts/build

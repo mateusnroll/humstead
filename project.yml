@@ -30,6 +30,13 @@ targets:
     type: application
     platform: macOS
     sources: [Humstead]
+    info:
+      path: .build/Humstead-Info.plist
+      properties:
+        HumsteadBuildConfiguration: "$(CONFIGURATION)"
+        HumsteadUsageToken: "$(HUMSTEAD_USAGE_TOKEN)"
+        HumsteadUsageAttested: "$(HUMSTEAD_USAGE_ATTESTED)"
+        HumsteadDownloadOrigin: "$(HUMSTEAD_DOWNLOAD_ORIGIN)"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead
@@ -39,7 +46,8 @@ targets:
         ENABLE_DEBUG_DYLIB: NO
         INFOPLIST_KEY_CFBundleDisplayName: Humstead
         HUMSTEAD_DOWNLOAD_ORIGIN: ""
-        INFOPLIST_KEY_HumsteadDownloadOrigin: "$(HUMSTEAD_DOWNLOAD_ORIGIN)"
+        HUMSTEAD_USAGE_TOKEN: ""
+        HUMSTEAD_USAGE_ATTESTED: "NO"
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.music
       configs:
         Testing:
@@ -47,7 +55,7 @@ targets:
   HumsteadTests:
     type: bundle.unit-test
     platform: macOS
-    sources: [HumsteadTests, Humstead/Domain, Humstead/Downloads, Humstead/Audio, Humstead/Persistence, Humstead/System, Humstead/Resources, Humstead/PlayerModel.swift]
+    sources: [HumsteadTests, Humstead/Analytics, Humstead/Domain, Humstead/Downloads, Humstead/Audio, Humstead/Persistence, Humstead/System, Humstead/Resources, Humstead/PlayerModel.swift]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mateusnroll.humstead.tests

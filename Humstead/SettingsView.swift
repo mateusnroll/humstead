@@ -3,11 +3,20 @@ import SwiftUI
 struct SettingsView: View {
   @ObservedObject var model: PlayerModel
   var body: some View {
-    TabView(selection: $model.settingsPage) {
-      DownloadsView(model: model)
-        .tabItem { Label("Downloads", systemImage: "arrow.down.circle") }.tag("downloads")
-      CreditsView(model: model)
-        .tabItem { Label("Credits", systemImage: "heart") }.tag("credits")
+    VStack(spacing: 0) {
+      Picker("Settings section", selection: $model.settingsPage) {
+        Text("Downloads").tag("downloads")
+        Text("Privacy").tag("privacy")
+        Text("Credits").tag("credits")
+      }
+      .pickerStyle(.segmented)
+      .padding()
+      Divider()
+      switch model.settingsPage {
+      case "privacy": PrivacyView(model: model)
+      case "credits": CreditsView(model: model)
+      default: DownloadsView(model: model)
+      }
     }
     .frame(width: 600, height: 580)
   }

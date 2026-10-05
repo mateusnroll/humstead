@@ -5,7 +5,7 @@ import re
 import sys
 
 root = pathlib.Path(__file__).resolve().parent.parent
-required = ('environment', 'setup', 'dev', 'check', 'verify', 'build', 'build-for-testing', 'inspect-app', 'test-harness', 'validate-workflows', 'validate-ci', 'test-download-shutdown', 'with-download-fixture', 'download-fixture.py')
+required = ('environment', 'setup', 'dev', 'check', 'verify', 'build', 'build-for-testing', 'inspect-app', 'test-harness', 'validate-workflows', 'validate-ci', 'test-download-shutdown', 'with-download-fixture', 'download-fixture.py', 'with-analytics-fixture', 'analytics-fixture.py')
 for name in required:
     path = root / 'scripts' / name
     assert path.is_file() and os.access(path, os.X_OK), f'Missing executable: {path}'

@@ -15,6 +15,7 @@ final class SettingsStore: @unchecked Sendable {
   private var readOnly = false
   private var availableSounds: Set<String>
   private var pending: MixSettings?
+  private var latest = MixSettings()
   private var saveWork: DispatchWorkItem?
   private var generation = 0
 
@@ -55,6 +56,7 @@ final class SettingsStore: @unchecked Sendable {
       guard data.count <= Self.maximumBytes else { throw SettingsError.invalid }
       let settings = try JSONDecoder().decode(MixSettings.self, from: data).validated(
         availableSounds: availableSounds)
+      latest = settings
       return Loaded(settings: settings)
     } catch {
       do {
@@ -80,7 +82,12 @@ final class SettingsStore: @unchecked Sendable {
   func save(_ settings: MixSettings) {
     queue.async { [self] in
       guard !readOnly else { return }
-      do { pending = try settings.validated(availableSounds: availableSounds) } catch {
+      do {
+        var value = try settings.validated(availableSounds: availableSounds)
+        value.analyticsChoice = latest.analyticsChoice
+        pending = value
+        latest = value
+      } catch {
         warning("These settings could not be saved. Your last saved mix is unchanged.")
         return
       }
@@ -95,8 +102,10 @@ final class SettingsStore: @unchecked Sendable {
       queue.asyncAfter(deadline: .now() + .milliseconds(250), execute: work)
     }
   }
-  private func writePending() {
-    guard !readOnly, let pending else { return }
+  @discardableResult
+  private func writePending() -> Bool {
+    guard !readOnly else { return false }
+    guard let pending else { return true }
     do {
       try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
       let encoder = JSONEncoder()
@@ -105,8 +114,30 @@ final class SettingsStore: @unchecked Sendable {
       guard data.count <= Self.maximumBytes else { throw SettingsError.invalid }
       try data.write(to: file, options: .atomic)
       self.pending = nil
+      return true
     } catch {
       warning("Your changes could not be saved. Your last saved mix is unchanged.")
+      return false
+    }
+  }
+  func setAnalyticsConsent(_ enabled: Bool) async -> Bool {
+    await withCheckedContinuation { continuation in
+      queue.async { [self] in
+        guard !readOnly else {
+          continuation.resume(returning: false)
+          return
+        }
+        generation += 1
+        saveWork?.cancel()
+        latest.analyticsChoice = enabled ? "enabled" : "disabled"
+        pending = latest
+        let saved = writePending()
+        if !saved {
+          latest.analyticsChoice = "disabled"
+          pending = latest
+        }
+        continuation.resume(returning: saved)
+      }
     }
   }
   func flush(timeout: TimeInterval) -> Bool {

@@ -36,5 +36,6 @@ struct HumsteadApp: App {
 final class HumsteadDelegate: NSObject, NSApplicationDelegate {
   weak var model: PlayerModel?
   func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
+  func applicationDidBecomeActive(_ notification: Notification) { model?.checkUsage() }
   func applicationWillTerminate(_ notification: Notification) { model?.stop() }
 }

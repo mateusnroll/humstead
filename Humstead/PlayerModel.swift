@@ -23,6 +23,16 @@ final class PlayerModel: ObservableObject {
   private var removalTask: Task<Void, Never>?
   @Published private var downloadTask: Task<Void, Never>?
 
+  @Published private(set) var usageEnabled = false
+  @Published private(set) var usageAvailable = false
+  @Published private(set) var usageChanging = false
+  @Published private(set) var usageWarning: String?
+  private var usage: UsageReporter?
+  private var usageTask: Task<Void, Never>?
+  private var usageClock: UsageTestClock?
+  private var usageChangeID: UInt64 = 0
+  private var usageRequestToken: UInt64?
+  private var menuRequest: (id: UInt64, token: UInt64?)?
   private var controller: AudioController?
   private var store: SettingsStore?
   private var media: SystemMediaBridge?
@@ -71,6 +81,50 @@ final class PlayerModel: ObservableObject {
       guard !stopped else { return }
       settings = loaded.settings
       persistenceWarning = loaded.warning
+      var testURL: URL?
+      if Bundle.main.bundleIdentifier == "com.mateusnroll.humstead.testing",
+        let index = arguments.firstIndex(of: "--test-usage-origin"),
+        arguments.indices.contains(index + 1)
+      {
+        testURL = URL(string: arguments[index + 1])
+      }
+      let configuration = UsageConfiguration.resolve(
+        build: bundle.object(forInfoDictionaryKey: "HumsteadBuildConfiguration") as? String ?? "",
+        bundleID: Bundle.main.bundleIdentifier ?? "",
+        token: bundle.object(forInfoDictionaryKey: "HumsteadUsageToken") as? String ?? "",
+        attested: bundle.object(forInfoDictionaryKey: "HumsteadUsageAttested") as? String == "YES",
+        version: bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "",
+        testingURL: testURL)
+      var usageClockSource = UsageClock()
+      if configuration?.endpoint.host == "127.0.0.1", arguments.contains("--test-usage-clock") {
+        let clock = UsageTestClock()
+        usageClock = clock
+        usageClockSource = UsageClock(wall: clock.wall, elapsed: clock.elapsed)
+      }
+      let reporter = UsageReporter(
+        directory: storageDirectory, store: store, configuration: configuration,
+        clock: usageClockSource, transport: UsageTransport(configuration: configuration),
+        publish: { [weak self] presentation in
+          Task { @MainActor [weak self] in
+            guard let self, !stopped, presentation.revision == usage?.revision else { return }
+            usageEnabled = presentation.enabled
+            usageWarning = presentation.warning
+          }
+        })
+      usage = reporter
+      usageAvailable = configuration != nil && !loaded.readOnly && loaded.warning == nil
+      await reporter.load(loaded)
+      guard !stopped else {
+        reporter.close()
+        return
+      }
+      usageTask = Task { [weak self] in
+        while !Task.isCancelled {
+          do { try await Task.sleep(for: .seconds(3600)) } catch { return }
+          guard self?.stopped == false else { return }
+          await reporter.check()
+        }
+      }
       controller = AudioController(
         bundle: bundle, settings: settings, catalog: available, library: library
       ) { [weak self] state in
@@ -136,6 +190,17 @@ final class PlayerModel: ObservableObject {
       return
     }
     state = snapshot
+    if snapshot.isPlaying,
+      snapshot.activeLayers.contains(where: {
+        snapshot.mix[$0]?.enabled == true && (snapshot.mix[$0]?.level ?? 0) > 0
+      })
+    {
+      report(.ambience(only: snapshot.volume == 0), token: usageRequestToken)
+    }
+    if let pending = menuRequest, snapshot.requestID >= pending.id {
+      menuRequest = nil
+      if snapshot.error == nil { report(.menuBar, token: pending.token) }
+    }
     if let expired = snapshot.expiredTimer, sleepTimer.finish(generation: expired) {
       timerTask?.cancel()
       countdown = 0
@@ -150,6 +215,7 @@ final class PlayerModel: ObservableObject {
   var canNext: Bool { state.volume > 0 && track != nil }
   private func intent() -> UInt64 {
     requestID += 1
+    usageRequestToken = usage?.token
     return requestID
   }
   private func persist() { store?.save(settings) }
@@ -214,6 +280,7 @@ final class PlayerModel: ObservableObject {
     cancelTimer()
     guard [15, 30, 60].contains(minutes) else { return }
     sleepTimer.start(minutes: minutes, now: now)
+    report(.timer, token: usage?.token)
     tick()
     timerTask = Task { [weak self] in
       while !Task.isCancelled {
@@ -268,6 +335,8 @@ final class PlayerModel: ObservableObject {
     downloadError = nil
     failedDownloadID = nil
     downloadingCollectionID = plan.record.collection.id
+    let usageToken = usage?.token
+    report(.download, token: usageToken)
     downloadTask = Task { [weak self] in
       guard let self, let downloadCoordinator else { return }
       defer {
@@ -282,7 +351,13 @@ final class PlayerModel: ObservableObject {
         let result = await downloadCoordinator.snapshot()
         guard !stopped else { return }
         downloadError = result.message
-        if !(error is CancellationError) { failedDownloadID = plan.record.collection.id }
+        if !(error is CancellationError) {
+          failedDownloadID = plan.record.collection.id
+          switch error {
+          case DownloadError.downloadsDisabled: break
+          default: if !Task.isCancelled { report(.failedDownload, token: usageToken) }
+          }
+        }
       }
     }
   }
@@ -338,9 +413,54 @@ final class PlayerModel: ObservableObject {
     }
   }
 
+  private func report(_ outcome: UsageReporter.Outcome, token: UInt64?) {
+    guard let usage, let token, !stopped else { return }
+    Task { await usage.record(outcome, token: token) }
+  }
+  func setUsageEnabled(_ enabled: Bool) {
+    guard let usage, !stopped, !enabled || usageAvailable else { return }
+    let revision = usage.close()
+    usageChangeID += 1
+    let change = usageChangeID
+    usageEnabled = false
+    usageChanging = true
+    usageRequestToken = nil
+    menuRequest = nil
+    Task { [weak self] in
+      let result = await usage.setConsent(enabled, revision: revision)
+      guard let self, !stopped, usageChangeID == change else { return }
+      usageEnabled = result.enabled
+      usageWarning = result.warning
+      settings.analyticsChoice = result.enabled ? "enabled" : "disabled"
+      usageChanging = false
+    }
+  }
+  func checkUsage() {
+    guard let usage, !stopped else { return }
+    Task { await usage.check() }
+  }
+  var canAdvanceUsageWindow: Bool { usageClock != nil }
+  func advanceUsageWindow() {
+    usageClock?.advance()
+    checkUsage()
+  }
+  func toggleFromMenu() {
+    guard !stopped, controller != nil else { return }
+    togglePlayback()
+    menuRequest = (requestID, usage?.token)
+  }
+  func stationFromMenu(_ id: String) {
+    guard !stopped, controller != nil, MixSettings.stationIDs.contains(id) else { return }
+    selectStation(id)
+    menuRequest = (requestID, usage?.token)
+  }
+  func menuWindowShown() { report(.menuBar, token: usage?.token) }
+
   func stop() {
     guard !stopped else { return }
     stopped = true
+    usage?.close()
+    usageTask?.cancel()
     timerTask?.cancel()
     refreshTask?.cancel()
     downloadTask?.cancel()

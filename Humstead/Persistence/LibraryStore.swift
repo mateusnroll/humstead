@@ -91,8 +91,11 @@ final class LibraryStore: @unchecked Sendable {
           collection: collection,
           assets: catalog.assets.filter { collection.assetIDs.contains($0.id) })
       }
+      var checked: [VerificationKey: Result<URL, any Error>] = [:]
       for asset in catalog.assets {
-        do { _ = try verifiedLocation(asset) } catch { state.unavailable.insert(asset.id) }
+        do { _ = try verifiedLocation(asset, checked: &checked) } catch {
+          state.unavailable.insert(asset.id)
+        }
       }
       if !state.unavailable.isEmpty {
         state.warning =
@@ -157,6 +160,7 @@ final class LibraryStore: @unchecked Sendable {
           guard Set(staged.keys).isSubset(of: acceptedHashes) else {
             throw DownloadError.invalidCatalog
           }
+          var checked: [VerificationKey: Result<URL, any Error>] = [:]
           for asset in record.assets {
             if let partial = staged[asset.sha256] {
               guard
@@ -164,14 +168,16 @@ final class LibraryStore: @unchecked Sendable {
               else {
                 throw DownloadError.invalidCatalog
               }
-              try Self.verify(partial, asset: asset)
+              _ = try verifiedLocation(asset, staged: partial, checked: &checked)
             } else {
-              _ = try verifiedLocation(asset)
+              _ = try verifiedLocation(asset, checked: &checked)
             }
           }
+          var installedTargets: Set<URL> = []
           for asset in record.assets {
             guard let partial = staged[asset.sha256] else { continue }
             let target = blob(asset)
+            guard installedTargets.insert(target).inserted else { continue }
             if FileManager.default.fileExists(atPath: target.path) {
               if (try? Self.verify(target, asset: asset)) != nil { continue }
               guard leases[target.lastPathComponent, default: 0] == 0 else {
@@ -248,10 +254,12 @@ final class LibraryStore: @unchecked Sendable {
   func missingAssets(_ assets: [DownloadCatalog.Asset]) async -> [DownloadCatalog.Asset] {
     await withCheckedContinuation { continuation in
       queue.async { [self] in
-        var seen: Set<String> = []
+        var missing: Set<String> = []
+        var checked: [VerificationKey: Result<URL, any Error>] = [:]
         continuation.resume(
           returning: assets.filter { asset in
-            seen.insert(asset.sha256).inserted && (try? verifiedLocation(asset)) == nil
+            let unavailable = (try? verifiedLocation(asset, checked: &checked)) == nil
+            return unavailable && missing.insert(asset.sha256).inserted
           })
       }
     }
@@ -259,6 +267,43 @@ final class LibraryStore: @unchecked Sendable {
 
   private func blob(_ asset: DownloadCatalog.Asset) -> URL {
     audio.appendingPathComponent((asset.path as NSString).lastPathComponent)
+  }
+  private struct VerificationKey: Hashable {
+    let location: URL
+    let sha256: String
+    let byteLength: Int
+    let codec: String
+    let bundledEquivalent: String?
+  }
+  private func verifiedLocation(
+    _ asset: DownloadCatalog.Asset, staged: URL? = nil,
+    checked: inout [VerificationKey: Result<URL, any Error>]
+  ) throws -> URL {
+    let location: URL
+    if let staged {
+      location = staged
+    } else if let equivalent = asset.bundledEquivalent {
+      guard let original = bundled.asset(equivalent),
+        let url = bundle.url(forResource: original.resource, withExtension: nil)
+      else { throw DownloadError.unavailableAudio }
+      location = url
+    } else {
+      location = blob(asset)
+    }
+    let key = VerificationKey(
+      location: location.standardizedFileURL, sha256: asset.sha256,
+      byteLength: asset.byteLength, codec: asset.codec,
+      bundledEquivalent: staged == nil ? asset.bundledEquivalent : nil)
+    if let result = checked[key] { return try result.get() }
+    let result = Result {
+      if let staged {
+        try Self.verify(staged, asset: asset)
+        return staged
+      }
+      return try verifiedLocation(asset)
+    }
+    checked[key] = result
+    return try result.get()
   }
   private func verifiedLocation(_ asset: DownloadCatalog.Asset) throws -> URL {
     if let equivalent = asset.bundledEquivalent, let original = bundled.asset(equivalent) {

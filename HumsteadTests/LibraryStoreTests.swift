@@ -6,6 +6,45 @@ import Testing
 private final class LibraryTestBundle: NSObject {}
 
 struct LibraryStoreTests {
+  @Test func sharedVerificationPreservesIntegrityAndFreshness() async throws {
+    let fixture = try LibraryFixture()
+    defer { try? FileManager.default.removeItem(at: fixture.directory) }
+    let store = fixture.store()
+    _ = await store.load()
+    try await store.install(fixture.record, staged: fixture.staged())
+    let asset = fixture.asset
+    func alias(_ id: String, bytes: Int? = nil) -> DownloadCatalog.Asset {
+      DownloadCatalog.Asset(
+        id: id, kind: asset.kind, sha256: asset.sha256,
+        byteLength: bytes ?? asset.byteLength, codec: asset.codec, duration: asset.duration,
+        path: asset.path, title: asset.title, creator: asset.creator,
+        originalSourceURL: asset.originalSourceURL, creatorProfileURL: asset.creatorProfileURL,
+        license: asset.license, licenseVersion: asset.licenseVersion, licenseURL: asset.licenseURL,
+        attribution: asset.attribution, modification: asset.modification, bundledEquivalent: nil)
+    }
+    let second = alias("shared-second")
+    let wrongSize = alias("wrong-size", bytes: asset.byteLength + 1)
+    let missing = await store.missingAssets([asset, wrongSize])
+    #expect(missing.map(\.id) == [wrongSize.id])
+    let shared = InstalledCollection(
+      collection: DownloadCatalog.Collection(
+        id: fixture.record.collection.id, kind: "music", version: 2, label: "Shared music",
+        stationID: "mellow", assetIDs: [asset.id, second.id], totalBytes: asset.byteLength * 2),
+      assets: [asset, second])
+    try await store.install(shared, staged: [:])
+    #expect(await fixture.store().load().unavailable.isEmpty)
+    let blob = fixture.directory.appendingPathComponent("Audio")
+      .appendingPathComponent((asset.path as NSString).lastPathComponent)
+    try Data(repeating: 0, count: asset.byteLength).write(to: blob, options: .atomic)
+    #expect(throws: (any Error).self) { try store.acquire(asset.metadata) }
+    let damaged = await fixture.store().load()
+    #expect(damaged.unavailable == Set([asset.id, second.id]))
+    #expect(await store.missingAssets([asset, second]).count == 1)
+    try Data(contentsOf: fixture.source).write(to: blob, options: .atomic)
+    #expect(await store.missingAssets([asset, second]).isEmpty)
+    #expect(try store.acquire(second.metadata).url == blob)
+  }
+
   @MainActor @Test func layerLimitFeedbackSurvivesPlaybackUpdates() async throws {
     let fixture = try LibraryFixture()
     defer { try? FileManager.default.removeItem(at: fixture.directory) }

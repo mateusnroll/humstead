@@ -103,7 +103,7 @@ struct ContentView: View {
             .disabled(model.state.catalog == nil)
             .accessibilityValue("\(Int(model.state.volume * 100)) percent")
           }
-          VStack(alignment: .leading, spacing: 16) {
+          Group {
             Picker(
               "Ambience preset",
               selection: Binding(get: { model.settings.presetID }, set: model.selectPreset)
@@ -116,36 +116,42 @@ struct ContentView: View {
             Button("Reset ambience", action: model.resetAmbience)
               .focused($focusedControl, equals: .reset)
               .id(Control.reset)
-            ForEach(model.sounds) { sound in
-              let id = sound.id
-              let title =
-                ["rain": "Rain", "cafe": "Café", "fireplace": "Fireplace", "forest": "Forest"][id]
-                ?? sound.title
-              let level = model.settings.mix[id] ?? AmbienceLevel()
-              VStack(alignment: .leading, spacing: 6) {
-                Toggle(
-                  title,
-                  isOn: Binding(get: { level.enabled }, set: { model.setLayer(id, enabled: $0) })
-                )
-                .toggleStyle(.checkbox)
-                .accessibilityIdentifier("ambience-toggle-\(id)")
-                .focused($focusedControl, equals: .layerToggle(id))
-                .id(Control.layerToggle(id))
-                Slider(
-                  value: Binding(get: { level.level }, set: { model.setLayer(id, level: $0) }),
-                  in: 0...1, step: 0.01
-                ) {
-                  Text("\(title) volume")
+            LazyVStack(alignment: .leading, spacing: 24) {
+              ForEach(model.sounds) { sound in
+                let id = sound.id
+                let title =
+                  ["rain": "Rain", "cafe": "Café", "fireplace": "Fireplace", "forest": "Forest"][id]
+                  ?? sound.title
+                let level = model.settings.mix[id] ?? AmbienceLevel()
+                VStack(alignment: .leading, spacing: 6) {
+                  Toggle(
+                    title,
+                    isOn: Binding(get: { level.enabled }, set: { model.setLayer(id, enabled: $0) })
+                  )
+                  .toggleStyle(.checkbox)
+                  .accessibilityIdentifier("ambience-toggle-\(id)")
+                  .focused($focusedControl, equals: .layerToggle(id))
+                  .id(Control.layerToggle(id))
+                  Slider(
+                    value: Binding(get: { level.level }, set: { model.setLayer(id, level: $0) }),
+                    in: 0...1, step: 0.01,
+                    onEditingChanged: { editing in
+                      if !editing { focusedControl = .layerVolume(id) }
+                    }
+                  ) {
+                    Text("\(title) volume")
+                  }
+                  .labelsHidden()
+                  .accessibilityLabel("\(title) volume")
+                  .accessibilityIdentifier("ambience-volume-\(id)")
+                  .accessibilityValue("\(Int((level.level * 100).rounded())) percent")
+                  .focused($focusedControl, equals: .layerVolume(id))
+                  .id(Control.layerVolume(id))
+                  if let error = model.state.layerErrors[id] {
+                    Text(error).font(.caption).foregroundStyle(.secondary)
+                  }
                 }
-                .labelsHidden()
-                .accessibilityLabel("\(title) volume")
-                .accessibilityIdentifier("ambience-volume-\(id)")
-                .accessibilityValue("\(Int((level.level * 100).rounded())) percent")
-                .focused($focusedControl, equals: .layerVolume(id))
-                .id(Control.layerVolume(id))
-                if let error = model.state.layerErrors[id] {
-                  Text(error).font(.caption).foregroundStyle(.secondary)
-                }
+                .id(id)
               }
             }
             Picker(
@@ -185,11 +191,6 @@ struct ContentView: View {
             Text(warning).font(.callout).foregroundStyle(.secondary)
               .accessibilityIdentifier("persistence-warning")
           }
-          if let message = model.layerMessage {
-            Text(message).font(.callout).foregroundStyle(.secondary)
-              .fixedSize(horizontal: false, vertical: true)
-              .accessibilityIdentifier("ambience-message")
-          }
           if let error = model.state.error {
             Text(error).font(.callout).foregroundStyle(.secondary)
               .fixedSize(horizontal: false, vertical: true)
@@ -206,7 +207,22 @@ struct ContentView: View {
         .padding(24)
       }
       .onChange(of: focusedControl) { control in
-        if let control { proxy.scrollTo(control) }
+        switch control {
+        case .layerToggle(let id), .layerVolume(let id):
+          proxy.scrollTo(id, anchor: .center)
+        case .some(let control): proxy.scrollTo(control)
+        case .none: break
+        }
+      }
+    }
+    .safeAreaInset(edge: .bottom, spacing: 0) {
+      if let message = model.layerMessage {
+        Text(message).font(.callout).foregroundStyle(.secondary)
+          .fixedSize(horizontal: false, vertical: true)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(16)
+          .background(Color(nsColor: .windowBackgroundColor))
+          .accessibilityIdentifier("ambience-message")
       }
     }
     .frame(minWidth: 320, minHeight: 400)

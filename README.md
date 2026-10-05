@@ -1,6 +1,6 @@
 # Humstead
 
-A free native macOS home for lofi music and ambience. Humstead is under development. The local station-player milestone provides Mellow, Jazzy and Late Night, shuffled continuous playback, music volume and offline creator credits. The current mix milestone adds four simultaneous ambience layers, five remembered presets per station, optional sleep timer, menu-bar playback and native media/lifecycle adapters. Optional downloads add verified local collections, cancellable updates, offline attribution and emergency shutdown. Privacy controls follow in the next milestone.
+A free native macOS home for lofi music and ambience. Humstead is under development. The local station-player milestone provides Mellow, Jazzy and Late Night, shuffled continuous playback, music volume and offline creator credits. The current mix milestone adds four simultaneous ambience layers, five remembered presets per station, optional sleep timer, menu-bar playback and native media/lifecycle adapters. Optional downloads add verified local collections, cancellable updates, offline attribution and emergency shutdown. Settings → Privacy adds optional weekly usage summaries; production reporting is disabled in the default build.
 
 ## Development
 
@@ -22,6 +22,11 @@ Scripts select /Applications/Xcode.app when DEVELOPER_DIR is unset; set DEVELOPE
 
 Full verification requires an unlocked logged-in desktop with Xcode UI testing permissions. It runs Swift Testing and XCTest UI in the Testing configuration; the app uses a separate com.mateusnroll.humstead.testing container. No user container is reset. Failure or unavailable GUI is not a successful skip. scripts/build-for-testing compiles test bundles without executing them; scripts/inspect-app Release checks the delivered sandbox and architecture. scripts/test-harness exercises setup and verification failures using disposable project-local fixtures. CI runs static-contracts and macos-build only; runtime tests run locally.
 
+For native keyboard tests, temporarily enable System Settings → Keyboard → Keyboard navigation, then restore your setting afterward. Run the standard UI suite at the player’s default 380×520 content size; minimum-window accessibility is a separate acceptance check.
+
+Full verification also prepares an isolated2,000-asset/200-collection library outside the XCTest runner sandbox, reusing approved bundled audio. For a focused BoundedLibraryUITests run, first use scripts/verify --prepare-bounded-library. This creates a fresh Testing-only state, records its name in .build/bounded-library-state.json, and removes only the previous fixture created by that command. It does not change ordinary app preferences or audio.
+
+
 ## Player walkthrough
 
 Launch with scripts/dev, choose a station and press Play. Next advances without starting paused playback. Music volume zero pauses the track at its current position; raising it resumes only if playback is requested. Space toggles playback when the player background has focus; focused controls retain their native key handling. Playback → Play/Pause (Command-P) and Next track (Command-Right) expose keyboard commands. Command-comma opens Settings; the player’s Credits link selects Credits directly. Relaunch restores the saved station, preset and volumes paused. Choose an ambience preset, toggle layers and adjust their volumes; Reset ambience restores that preset’s original mix. Closing the window keeps playback available from the Humstead menu-bar item. The optional15/30/60-minute sleep timer fades out over five seconds; cancel it to continue indefinitely. System sleep or an observed output-route change pauses playback; wake/reconnect never autoplays.
@@ -35,6 +40,14 @@ Settings → Downloads shows collection versions and sizes. Confirm the frozen v
 Development builds omit a production origin and issue no public download requests. A release builder may supply the fixed HTTPS origin through the HumsteadDownloadOrigin Info.plist key; remote catalogs cannot change endpoints. No cloud provisioning is included. The [download operations runbook](docs/DOWNLOAD-OPERATIONS.md) covers the separate production edge setup and shutdown drill.
 
 Full verification launches the loopback fixture outside the app via scripts/with-download-fixture, using port38476 only during tests; an occupied port fails instead of adopting another server. The strict Testing app accepts --test-download-origin http://127.0.0.1:38476 and isolated --test-settings names. Release ignores test arguments. Tests reuse approved bundled recordings without changing attribution. scripts/test-download-shutdown independently verifies cached/uncached edge denial and zero denied origin reads in the local fixture; it does not claim Cloudflare enforcement. To run focused download UI tests, wrap the usual xcodebuild test command with scripts/with-download-fixture.
+
+## Privacy
+
+Listening needs no account. Settings → Privacy explains the optional weekly summary: five broad feature flags, a bucketed download-failure count and the release major/minor version. Each attempt uses a new random ID that is never saved. Humstead sends no track data, listening history, persistent identity or crash report. Disabling stops collection, cancels delivery where possible and clears local pending data; reports already accepted cannot be recalled.
+
+Default Debug, Testing and Release builds cannot collect or send usage. Production reporting requires separately verified PostHog EU privacy, retention and no-overage settings, an explicit Release attestation and a public ingest token. The [analytics release prerequisites](docs/ANALYTICS-RELEASE.md) describe the evidence required before enabling it. Provider-visible IP and receipt time are disclosed in the app; local tests do not prove provider enforcement.
+
+Verification runs scripts/with-analytics-fixture on loopback port38477 outside the app sandbox. Only the Testing bundle accepts --test-usage-origin http://127.0.0.1:38477 and --test-usage-clock YES. The latter exposes a test-only clock button for weekly-window acceptance. Both fixture wrappers fail if their port is occupied and stop their own servers on exit. No test data goes to public analytics. Production build values come from project.yml into a generated .build/Humstead-Info.plist; scripts/setup recreates it.
 
 ## Project contracts
 
