@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""Exercise the local emergency edge independently of Humstead's client checks."""
+import json
+import pathlib
+import subprocess
+import tempfile
+import time
+import urllib.error
+import urllib.request
+
+root = pathlib.Path(__file__).resolve().parent.parent
+(root / '.build').mkdir(exist_ok=True)
+with tempfile.TemporaryDirectory(prefix='edge-drill-', dir=root / '.build') as folder:
+    ready = pathlib.Path(folder) / 'ready.json'
+    server = subprocess.Popen(['/usr/bin/python3', str(root / 'scripts/download-fixture.py'),
+                               '--root', str(root), '--ready', str(ready)])
+    try:
+        for _ in range(100):
+            if ready.exists():
+                break
+            time.sleep(0.05)
+        origin = json.loads(ready.read_text())['origin']
+
+        def get(path):
+            try:
+                with urllib.request.urlopen(origin + path, timeout=5) as response:
+                    return response.status, response.read()
+            except urllib.error.HTTPError as error:
+                return error.code, error.read()
+
+        def configure(values):
+            request = urllib.request.Request(origin + '/__configure',
+                                             data=json.dumps(values).encode(), method='POST')
+            with urllib.request.urlopen(request, timeout=5) as response:
+                assert response.status == 200
+
+        status, data = get('/catalog/v1.json')
+        assert status == 200
+        assets = json.loads(data)['assets']
+        cached = '/' + assets[0]['path']
+        uncached = '/' + assets[1]['path']
+        assert get(cached)[0] == 200
+        before = json.loads(get('/__journal')[1])['origin_reads']
+        configure({'enabled': False, 'revision': 2, 'edge_block': True})
+        started = time.monotonic()
+        assert get(cached)[0] == 403, 'Cached object bypassed edge block'
+        assert get(uncached)[0] == 403, 'Uncached object bypassed edge block'
+        assert get('/catalog/v1.json')[0] == 200
+        status, control = get('/control/v1.json')
+        assert status == 200 and json.loads(control)['downloadsEnabled'] is False
+        after = json.loads(get('/__journal')[1])['origin_reads']
+        assert before == after, 'Denied requests reached origin'
+        configure({'edge_block': False, 'enabled': True, 'revision': 3})
+        assert get(uncached)[0] == 200
+        print(json.dumps({'result': 'passed', 'cached_denied': True, 'uncached_denied': True,
+                          'denied_origin_reads': after - before,
+                          'local_observation_seconds': time.monotonic() - started,
+                          'scope': 'local fixture only; real Cloudflare drill remains a release gate'}))
+    finally:
+        server.terminate()
+        server.wait(timeout=5)

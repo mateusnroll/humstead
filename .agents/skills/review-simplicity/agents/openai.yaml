@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humstead Review Simplicity"
+  short_description: "Review Humstead for avoidable complexity"
+  default_prompt: "Use $review-simplicity for the current Humstead task."

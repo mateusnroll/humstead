@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import json
+import pathlib
+
+root = pathlib.Path(__file__).resolve().parent.parent
+# JSON is a YAML subset, avoiding an additional parser dependency.
+workflow = json.loads((root / '.github/workflows/ci.yml').read_text())
+assert workflow['permissions'] == {'contents': 'read'}
+assert set(workflow['jobs']) == {'static-contracts', 'macos-build'}
+expected = {
+    'static-contracts': ['scripts/setup', 'scripts/check'],
+    'macos-build': ['scripts/setup', 'scripts/build-for-testing', 'scripts/build'],
+}
+for name, job in workflow['jobs'].items():
+    assert job['runs-on'] == 'macos-26'
+    steps = job['steps']
+    assert steps[0] == {'uses': 'actions/checkout@v4'}
+    selector = steps[1]['run']
+    assert "'Xcode_26*.app'" in selector and 'DEVELOPER_DIR=' in selector
+    assert steps[1]['name'] == 'Select Xcode 26'
+    assert [step['run'] for step in steps[2:]] == expected[name], 'CI must compile, never run tests'
+    assert all(set(step) <= {'name', 'run', 'uses'} for step in steps)
+print('CI static/build contract valid; hosted success remains a final-PR gate')

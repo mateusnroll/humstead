@@ -1,0 +1,1011 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		015E378B302BC2EBA1D8C48B /* SleepTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B035974291D50A69D3D79 /* SleepTimerTests.swift */; };
+		02AE080C6EF688B03C450DB9 /* HTTPTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3D65FD376D02BB5B5211D2 /* HTTPTransfer.swift */; };
+		02ED23ED09498616B68639BD /* 2-hour-delay.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */; };
+		03324EF820F4BCE41AB44E21 /* AudioRouteObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B4C76F4BF1855E32771A6 /* AudioRouteObserver.swift */; };
+		05FF6ED2FCC9E4FE5DAE60B4 /* DownloadsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E0F9D4FAB6B9B84A905978 /* DownloadsUITests.swift */; };
+		082CEA5828AB8DFF2DD33586 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 53BA853F7B4BE8CC453A2225 /* catalog.json */; };
+		0E41B5B5DE42E8E774D5D694 /* ScaffoldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38FED8DD9551BDCF642D30 /* ScaffoldTests.swift */; };
+		1019E0D1A6774D954706E524 /* HumsteadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59074CD4FB112475B6B9955B /* HumsteadApp.swift */; };
+		12B3154BB571D4C500358F0F /* DownloadCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F383951087DCBEA6ADAC1691 /* DownloadCatalogTests.swift */; };
+		1311D6EC45B9C3D96081A2B0 /* UsageTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0FE82D67E27311D6D63D7 /* UsageTransport.swift */; };
+		14024D23B6A61FF015C58818 /* MixSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E464ECCDF9209147C25A3 /* MixSettings.swift */; };
+		14434117F38DE8F46178008C /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */; };
+		1B2B56B97C270C487EA689BC /* chills.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9A97CCE3684ADD402FE7356E /* chills.m4a */; };
+		1D5CC455B4E7A78B441D9F3A /* MixSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E464ECCDF9209147C25A3 /* MixSettings.swift */; };
+		23D7FD42DF092D839D8A951C /* LifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9F3672B287824647912363 /* LifecycleTests.swift */; };
+		24ECADAFD4CDF41CBDAEA36F /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FFA6DA8E74147B47B88AF9 /* AudioController.swift */; };
+		2C6A02924FB45942840997AC /* keeping-cool.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */; };
+		2E280ABDD71D4B1E4770D961 /* LibraryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62BD2EC1F92D41FC74E90C /* LibraryStoreTests.swift */; };
+		2E4B2ADF569E026C412BBB43 /* Catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */; };
+		3071144B4CF352F895993DF2 /* SystemMediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFA42170772D66A92CF9C35 /* SystemMediaTests.swift */; };
+		342B58B96AE3BCC7CD3128C1 /* everything-you-ever-dreamed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */; };
+		34703B2FA762708F7AC4A880 /* SleepTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F8C579A7DDB45C8694CB67 /* SleepTimer.swift */; };
+		35918A9102C67B34DE1DE12E /* UsageReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870F831DEA1E5D0ADBDA0B9F /* UsageReporter.swift */; };
+		36490357FAA01F78C0409672 /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FFA6DA8E74147B47B88AF9 /* AudioController.swift */; };
+		3873421FFDF74F3C49BF6F94 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3639535D720E5CF57D349E29 /* PlayerModel.swift */; };
+		38C7D4D1F9E5BCD600930B78 /* ShuffleBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F93CF13FA03205996FB784 /* ShuffleBag.swift */; };
+		3BF35547C15E1809E4554592 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7233BE34283FBFB28CB6469A /* SettingsView.swift */; };
+		3C220092C5D18F2109120ED7 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888D0FA0B91872C81E15657 /* SettingsStore.swift */; };
+		3F07A2D1A3C8AE1E6E1F59A5 /* catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 53BA853F7B4BE8CC453A2225 /* catalog.json */; };
+		3F2C644C9AAFDABD53C8D5E2 /* cafe.caf in Resources */ = {isa = PBXBuildFile; fileRef = 956964EF244F930A09CBE470 /* cafe.caf */; };
+		3FFA46A3535E089463A0EDDA /* fireplace.caf in Resources */ = {isa = PBXBuildFile; fileRef = F3712A184880B94C072D7386 /* fireplace.caf */; };
+		40FE9A136708284AA5944FAD /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3639535D720E5CF57D349E29 /* PlayerModel.swift */; };
+		41A26086BEAD3D87279FCA45 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2813DF9738EB45785F445052 /* DownloadsView.swift */; };
+		44BB3599A4060E1739A5798E /* DownloadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446EE1DF59F6F0E29A94FF0 /* DownloadCoordinator.swift */; };
+		5135A44E3B9EB8A6912C8210 /* UsageReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870F831DEA1E5D0ADBDA0B9F /* UsageReporter.swift */; };
+		545AC465067A8F1EEFC5A655 /* snow-drift.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 407F5DAB7B99964D778659D0 /* snow-drift.m4a */; };
+		58C37939787F266EF2FCC9CA /* MixAudioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CEE89112C3E7B84F36CD17 /* MixAudioTests.swift */; };
+		617DA701C1D4427A12CFD716 /* everything-you-ever-dreamed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */; };
+		626B49EE77556A6497621368 /* a-little-shade.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 858E7062701CE88D5191B190 /* a-little-shade.m4a */; };
+		6293D0B661D7215135605E67 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B8D310485224FC3A116169 /* PrivacyView.swift */; };
+		62ED483A3874641344A26304 /* CatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2DFB5FED25EBFECAE7AE17 /* CatalogTests.swift */; };
+		637491FC093C2343B42B87D9 /* DownloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3115F6F477809B886C2DDDE5 /* DownloadTests.swift */; };
+		66CFB3925DC325204A6A6D8A /* rain.caf in Resources */ = {isa = PBXBuildFile; fileRef = C74674AF5F29D32CB58CAC6D /* rain.caf */; };
+		67991452C89A17F48B32B05A /* rain.caf in Resources */ = {isa = PBXBuildFile; fileRef = C74674AF5F29D32CB58CAC6D /* rain.caf */; };
+		6BF78B5B02150F5A1FFBA33A /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C326BD4A385F2E67DF9EFA /* LibraryStore.swift */; };
+		6EC7C69BD9FE4442F94AD2B1 /* DownloadCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F3A42224EB5FF6076A99A /* DownloadCatalog.swift */; };
+		6FF5377CD475D7CB5418CA77 /* HTTPTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3D65FD376D02BB5B5211D2 /* HTTPTransfer.swift */; };
+		7689F5B911CF76E170863B80 /* SystemMediaBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF323D3DEFEA11DC3E18E81C /* SystemMediaBridge.swift */; };
+		77038A0BC53CC707E5EF943A /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C26F3EFD2C50FCEEEC1C50 /* MenuBarView.swift */; };
+		7CFA9D314A202636E8EEFA8E /* fireplace.caf in Resources */ = {isa = PBXBuildFile; fileRef = F3712A184880B94C072D7386 /* fireplace.caf */; };
+		7E214BD58A29E9BDA990724D /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C326BD4A385F2E67DF9EFA /* LibraryStore.swift */; };
+		7E77418C3E2EBE4EFBBFC2B4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EF92C9035A9E47E0748FB8 /* ContentView.swift */; };
+		7F4A4E3DA42E13F9B58EBEA5 /* DownloadCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3446EE1DF59F6F0E29A94FF0 /* DownloadCoordinator.swift */; };
+		828137216EDDB8E4BD3AD8B7 /* UsageReporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F1C450BDC6E31C0ABE3093 /* UsageReporterTests.swift */; };
+		839FDC440ACD46ACA8ED4C73 /* morning-coffee.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */; };
+		884F7E8CD660A12FB3078682 /* AudioControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D6E50894EEE86BC9E0F005 /* AudioControllerTests.swift */; };
+		8BD249F0EB16F5004F27E2CC /* ScaffoldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304376065FBB754E2FF377BF /* ScaffoldUITests.swift */; };
+		8F0BAE550D3F44EB23C75E9D /* CreditsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C777AD4D44184CCF907CFF64 /* CreditsUITests.swift */; };
+		922543B0BCB2F2E1243A75E4 /* foggy-headed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */; };
+		926BB7622FF7C67C38B7149D /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4888D0FA0B91872C81E15657 /* SettingsStore.swift */; };
+		92A404F5E5D4ABD0B96E02E9 /* forest.caf in Resources */ = {isa = PBXBuildFile; fileRef = B61EB79BD58E9AE033981AED /* forest.caf */; };
+		92CD663E6D1FC8CC072CF511 /* forest.caf in Resources */ = {isa = PBXBuildFile; fileRef = B61EB79BD58E9AE033981AED /* forest.caf */; };
+		97FCB13313F78117F265AC6A /* MixUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA68E694D90AE16A3634022F /* MixUITests.swift */; };
+		993855C2C22851BA86E84E57 /* SleepTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F8C579A7DDB45C8694CB67 /* SleepTimer.swift */; };
+		9FF5D8DF6DB29D6654AF4398 /* ShuffleBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F93CF13FA03205996FB784 /* ShuffleBag.swift */; };
+		A4CFD63CBC9649003B7A77E3 /* cafe.caf in Resources */ = {isa = PBXBuildFile; fileRef = 956964EF244F930A09CBE470 /* cafe.caf */; };
+		A6F9AD0D51FAC17E4F0C5B56 /* chills.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9A97CCE3684ADD402FE7356E /* chills.m4a */; };
+		A79867A1CB878D0E8E2C6AE4 /* PrivacyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DDF35FFA1BC7FC7F0BD060 /* PrivacyUITests.swift */; };
+		AB80BEAA527A0A0F489BF8A9 /* foggy-headed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */; };
+		B11222F0C8E4DC1D0A4C8E50 /* SystemMediaBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF323D3DEFEA11DC3E18E81C /* SystemMediaBridge.swift */; };
+		B6EFA42C74D5907B245EEBC3 /* keeping-cool.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */; };
+		B8030A28744273A1375F7BC1 /* UsageTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6691D2E0085E5AC7A5D886D3 /* UsageTransportTests.swift */; };
+		BC6C5724857D6D4C3B7A74CB /* a-little-shade.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 858E7062701CE88D5191B190 /* a-little-shade.m4a */; };
+		C9CCDAFA184990E95C906951 /* DownloadCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F3A42224EB5FF6076A99A /* DownloadCatalog.swift */; };
+		D182F68A1B63F499085317D8 /* BoundedLibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD3D7DF8610722636282655 /* BoundedLibraryUITests.swift */; };
+		D333FB5D94859E2086EDA80D /* UsageTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0FE82D67E27311D6D63D7 /* UsageTransport.swift */; };
+		DED66603472493CEBB82CDA7 /* AudioRouteObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7B4C76F4BF1855E32771A6 /* AudioRouteObserver.swift */; };
+		DF5C6BD7AD91B46DFB5616C0 /* MixSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2C11AD757457ABAE7CE985 /* MixSettingsTests.swift */; };
+		EC871E883F86CBF91C1F20F9 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01BDA43EA067184481A52D7 /* SettingsStoreTests.swift */; };
+		EEFB3E904237B370AA7A12AD /* snow-drift.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 407F5DAB7B99964D778659D0 /* snow-drift.m4a */; };
+		F16E51CEB405601DE564EC62 /* morning-coffee.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */; };
+		F1BEE262F86EA87D13765260 /* PlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542F6B7F749518D6CF643035 /* PlayerUITests.swift */; };
+		F2D5B5A88072FCC4A284A13C /* 2-hour-delay.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */; };
+		F801BF6FB35F92ABA915F379 /* creature-comforts.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */; };
+		F8D80403AE21ED8FE4710B0F /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26C9AE399EBC8A2E235F4AF /* CreditsView.swift */; };
+		FAA85EA367A71C7E0EFFD73B /* creature-comforts.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */; };
+		FD90FA23B73E2927A5629A30 /* ShuffleBagTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60F63220F5C0F94499AACF8 /* ShuffleBagTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		935441E8E191EB5B52B477F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F144CE0606DE96B5E4D0385A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1EC0B38C090AE047DBB22D28;
+			remoteInfo = Humstead;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0AE80622C2EFA4AA1B51FDCA /* HumsteadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumsteadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C2B035974291D50A69D3D79 /* SleepTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerTests.swift; sourceTree = "<group>"; };
+		112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */ = {isa = PBXFileReference; path = "morning-coffee.m4a"; sourceTree = "<group>"; };
+		16FFA6DA8E74147B47B88AF9 /* AudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
+		180F3A42224EB5FF6076A99A /* DownloadCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCatalog.swift; sourceTree = "<group>"; };
+		19EF92C9035A9E47E0748FB8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1F2DFB5FED25EBFECAE7AE17 /* CatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogTests.swift; sourceTree = "<group>"; };
+		1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */ = {isa = PBXFileReference; path = "foggy-headed.m4a"; sourceTree = "<group>"; };
+		21EC3D19EE269919360F6AC1 /* Humstead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Humstead.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2813DF9738EB45785F445052 /* DownloadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsView.swift; sourceTree = "<group>"; };
+		2AE7880170EAE72F94502EB2 /* Humstead.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Humstead.entitlements; sourceTree = "<group>"; };
+		2AFA42170772D66A92CF9C35 /* SystemMediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMediaTests.swift; sourceTree = "<group>"; };
+		304376065FBB754E2FF377BF /* ScaffoldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldUITests.swift; sourceTree = "<group>"; };
+		3115F6F477809B886C2DDDE5 /* DownloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTests.swift; sourceTree = "<group>"; };
+		3446EE1DF59F6F0E29A94FF0 /* DownloadCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCoordinator.swift; sourceTree = "<group>"; };
+		3639535D720E5CF57D349E29 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
+		407F5DAB7B99964D778659D0 /* snow-drift.m4a */ = {isa = PBXFileReference; path = "snow-drift.m4a"; sourceTree = "<group>"; };
+		40B8D310485224FC3A116169 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
+		42DDF35FFA1BC7FC7F0BD060 /* PrivacyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyUITests.swift; sourceTree = "<group>"; };
+		46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalog.swift; sourceTree = "<group>"; };
+		4888D0FA0B91872C81E15657 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		4CA0FE82D67E27311D6D63D7 /* UsageTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTransport.swift; sourceTree = "<group>"; };
+		4E38FED8DD9551BDCF642D30 /* ScaffoldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldTests.swift; sourceTree = "<group>"; };
+		53BA853F7B4BE8CC453A2225 /* catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = catalog.json; sourceTree = "<group>"; };
+		542F6B7F749518D6CF643035 /* PlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUITests.swift; sourceTree = "<group>"; };
+		59074CD4FB112475B6B9955B /* HumsteadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumsteadApp.swift; sourceTree = "<group>"; };
+		616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */ = {isa = PBXFileReference; path = "keeping-cool.m4a"; sourceTree = "<group>"; };
+		63CEE89112C3E7B84F36CD17 /* MixAudioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixAudioTests.swift; sourceTree = "<group>"; };
+		6691D2E0085E5AC7A5D886D3 /* UsageTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTransportTests.swift; sourceTree = "<group>"; };
+		707FC5FFC1DAA6FC89D528C9 /* HumsteadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumsteadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7233BE34283FBFB28CB6469A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		73C26F3EFD2C50FCEEEC1C50 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		76C326BD4A385F2E67DF9EFA /* LibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStore.swift; sourceTree = "<group>"; };
+		7F3D65FD376D02BB5B5211D2 /* HTTPTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTransfer.swift; sourceTree = "<group>"; };
+		858E7062701CE88D5191B190 /* a-little-shade.m4a */ = {isa = PBXFileReference; path = "a-little-shade.m4a"; sourceTree = "<group>"; };
+		870F831DEA1E5D0ADBDA0B9F /* UsageReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReporter.swift; sourceTree = "<group>"; };
+		8CD3D7DF8610722636282655 /* BoundedLibraryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundedLibraryUITests.swift; sourceTree = "<group>"; };
+		8D9F3672B287824647912363 /* LifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleTests.swift; sourceTree = "<group>"; };
+		90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */ = {isa = PBXFileReference; path = "2-hour-delay.m4a"; sourceTree = "<group>"; };
+		956964EF244F930A09CBE470 /* cafe.caf */ = {isa = PBXFileReference; path = cafe.caf; sourceTree = "<group>"; };
+		9A97CCE3684ADD402FE7356E /* chills.m4a */ = {isa = PBXFileReference; path = chills.m4a; sourceTree = "<group>"; };
+		A1D6E50894EEE86BC9E0F005 /* AudioControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioControllerTests.swift; sourceTree = "<group>"; };
+		A5F8C579A7DDB45C8694CB67 /* SleepTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimer.swift; sourceTree = "<group>"; };
+		A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */ = {isa = PBXFileReference; path = "creature-comforts.m4a"; sourceTree = "<group>"; };
+		AE2C11AD757457ABAE7CE985 /* MixSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixSettingsTests.swift; sourceTree = "<group>"; };
+		AF62BD2EC1F92D41FC74E90C /* LibraryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStoreTests.swift; sourceTree = "<group>"; };
+		B26C9AE399EBC8A2E235F4AF /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		B61EB79BD58E9AE033981AED /* forest.caf */ = {isa = PBXFileReference; path = forest.caf; sourceTree = "<group>"; };
+		B6E0F9D4FAB6B9B84A905978 /* DownloadsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsUITests.swift; sourceTree = "<group>"; };
+		B8F93CF13FA03205996FB784 /* ShuffleBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleBag.swift; sourceTree = "<group>"; };
+		C74674AF5F29D32CB58CAC6D /* rain.caf */ = {isa = PBXFileReference; path = rain.caf; sourceTree = "<group>"; };
+		C777AD4D44184CCF907CFF64 /* CreditsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsUITests.swift; sourceTree = "<group>"; };
+		C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */ = {isa = PBXFileReference; path = "everything-you-ever-dreamed.m4a"; sourceTree = "<group>"; };
+		CA68E694D90AE16A3634022F /* MixUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixUITests.swift; sourceTree = "<group>"; };
+		D01BDA43EA067184481A52D7 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
+		E0F1C450BDC6E31C0ABE3093 /* UsageReporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReporterTests.swift; sourceTree = "<group>"; };
+		EE7B4C76F4BF1855E32771A6 /* AudioRouteObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRouteObserver.swift; sourceTree = "<group>"; };
+		F31E464ECCDF9209147C25A3 /* MixSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixSettings.swift; sourceTree = "<group>"; };
+		F3712A184880B94C072D7386 /* fireplace.caf */ = {isa = PBXFileReference; path = fireplace.caf; sourceTree = "<group>"; };
+		F383951087DCBEA6ADAC1691 /* DownloadCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCatalogTests.swift; sourceTree = "<group>"; };
+		F60F63220F5C0F94499AACF8 /* ShuffleBagTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuffleBagTests.swift; sourceTree = "<group>"; };
+		FF323D3DEFEA11DC3E18E81C /* SystemMediaBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMediaBridge.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		3198BEE263AE968D18006465 /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				3446EE1DF59F6F0E29A94FF0 /* DownloadCoordinator.swift */,
+				7F3D65FD376D02BB5B5211D2 /* HTTPTransfer.swift */,
+			);
+			path = Downloads;
+			sourceTree = "<group>";
+		};
+		34ADC71A273B2EF3E2381E59 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				870F831DEA1E5D0ADBDA0B9F /* UsageReporter.swift */,
+				4CA0FE82D67E27311D6D63D7 /* UsageTransport.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		46B40FFDE512874217180F37 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				EE7B4C76F4BF1855E32771A6 /* AudioRouteObserver.swift */,
+				FF323D3DEFEA11DC3E18E81C /* SystemMediaBridge.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		4B4F3DF4A831F5B6E43F1EAC /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				46BBBC07A2BBBE5A42F8DA40 /* Catalog.swift */,
+				180F3A42224EB5FF6076A99A /* DownloadCatalog.swift */,
+				F31E464ECCDF9209147C25A3 /* MixSettings.swift */,
+				B8F93CF13FA03205996FB784 /* ShuffleBag.swift */,
+				A5F8C579A7DDB45C8694CB67 /* SleepTimer.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		4BA5F5310DED17EBEB1A610C /* Humstead */ = {
+			isa = PBXGroup;
+			children = (
+				19EF92C9035A9E47E0748FB8 /* ContentView.swift */,
+				B26C9AE399EBC8A2E235F4AF /* CreditsView.swift */,
+				2813DF9738EB45785F445052 /* DownloadsView.swift */,
+				2AE7880170EAE72F94502EB2 /* Humstead.entitlements */,
+				59074CD4FB112475B6B9955B /* HumsteadApp.swift */,
+				73C26F3EFD2C50FCEEEC1C50 /* MenuBarView.swift */,
+				3639535D720E5CF57D349E29 /* PlayerModel.swift */,
+				40B8D310485224FC3A116169 /* PrivacyView.swift */,
+				7233BE34283FBFB28CB6469A /* SettingsView.swift */,
+				34ADC71A273B2EF3E2381E59 /* Analytics */,
+				A58817FB54609D827DA16D42 /* Audio */,
+				4B4F3DF4A831F5B6E43F1EAC /* Domain */,
+				3198BEE263AE968D18006465 /* Downloads */,
+				9CCDE1F7C6C5136B069C6F12 /* Persistence */,
+				B7368D8B309BD27C4AF767D5 /* Resources */,
+				46B40FFDE512874217180F37 /* System */,
+			);
+			path = Humstead;
+			sourceTree = "<group>";
+		};
+		72A315A0BCF99F7DA574610F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21EC3D19EE269919360F6AC1 /* Humstead.app */,
+				0AE80622C2EFA4AA1B51FDCA /* HumsteadTests.xctest */,
+				707FC5FFC1DAA6FC89D528C9 /* HumsteadUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		80CCC48C5C6BA69145F94A1B /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				90182E1E138D99ADE38778B2 /* 2-hour-delay.m4a */,
+				858E7062701CE88D5191B190 /* a-little-shade.m4a */,
+				956964EF244F930A09CBE470 /* cafe.caf */,
+				9A97CCE3684ADD402FE7356E /* chills.m4a */,
+				A74FA9C2A874E1FD4DDD37B7 /* creature-comforts.m4a */,
+				C948EFA553FB27738C04A718 /* everything-you-ever-dreamed.m4a */,
+				F3712A184880B94C072D7386 /* fireplace.caf */,
+				1F591DE76907D5F87E2AE6D2 /* foggy-headed.m4a */,
+				B61EB79BD58E9AE033981AED /* forest.caf */,
+				616CAED9E05A8B11D97E5734 /* keeping-cool.m4a */,
+				112F2C1BDD3616FF6DD57120 /* morning-coffee.m4a */,
+				C74674AF5F29D32CB58CAC6D /* rain.caf */,
+				407F5DAB7B99964D778659D0 /* snow-drift.m4a */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		9CCDE1F7C6C5136B069C6F12 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				76C326BD4A385F2E67DF9EFA /* LibraryStore.swift */,
+				4888D0FA0B91872C81E15657 /* SettingsStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		A58817FB54609D827DA16D42 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				16FFA6DA8E74147B47B88AF9 /* AudioController.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		AD411E434B4765B24C53B7D6 /* HumsteadTests */ = {
+			isa = PBXGroup;
+			children = (
+				A1D6E50894EEE86BC9E0F005 /* AudioControllerTests.swift */,
+				1F2DFB5FED25EBFECAE7AE17 /* CatalogTests.swift */,
+				F383951087DCBEA6ADAC1691 /* DownloadCatalogTests.swift */,
+				3115F6F477809B886C2DDDE5 /* DownloadTests.swift */,
+				AF62BD2EC1F92D41FC74E90C /* LibraryStoreTests.swift */,
+				8D9F3672B287824647912363 /* LifecycleTests.swift */,
+				63CEE89112C3E7B84F36CD17 /* MixAudioTests.swift */,
+				AE2C11AD757457ABAE7CE985 /* MixSettingsTests.swift */,
+				4E38FED8DD9551BDCF642D30 /* ScaffoldTests.swift */,
+				D01BDA43EA067184481A52D7 /* SettingsStoreTests.swift */,
+				F60F63220F5C0F94499AACF8 /* ShuffleBagTests.swift */,
+				0C2B035974291D50A69D3D79 /* SleepTimerTests.swift */,
+				2AFA42170772D66A92CF9C35 /* SystemMediaTests.swift */,
+				E0F1C450BDC6E31C0ABE3093 /* UsageReporterTests.swift */,
+				6691D2E0085E5AC7A5D886D3 /* UsageTransportTests.swift */,
+			);
+			path = HumsteadTests;
+			sourceTree = "<group>";
+		};
+		B7368D8B309BD27C4AF767D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				53BA853F7B4BE8CC453A2225 /* catalog.json */,
+				80CCC48C5C6BA69145F94A1B /* Audio */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D6439DDA90E7FF3D653A67F4 = {
+			isa = PBXGroup;
+			children = (
+				4BA5F5310DED17EBEB1A610C /* Humstead */,
+				AD411E434B4765B24C53B7D6 /* HumsteadTests */,
+				F147912EF738E8F33BB8FD32 /* HumsteadUITests */,
+				72A315A0BCF99F7DA574610F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F147912EF738E8F33BB8FD32 /* HumsteadUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CD3D7DF8610722636282655 /* BoundedLibraryUITests.swift */,
+				C777AD4D44184CCF907CFF64 /* CreditsUITests.swift */,
+				B6E0F9D4FAB6B9B84A905978 /* DownloadsUITests.swift */,
+				CA68E694D90AE16A3634022F /* MixUITests.swift */,
+				542F6B7F749518D6CF643035 /* PlayerUITests.swift */,
+				42DDF35FFA1BC7FC7F0BD060 /* PrivacyUITests.swift */,
+				304376065FBB754E2FF377BF /* ScaffoldUITests.swift */,
+			);
+			path = HumsteadUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1EC0B38C090AE047DBB22D28 /* Humstead */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4133BE7097B5AA43D0E25B87 /* Build configuration list for PBXNativeTarget "Humstead" */;
+			buildPhases = (
+				05F93337A8F2AEC15A92E025 /* Sources */,
+				D663B829A291A06DE76B11C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Humstead;
+			packageProductDependencies = (
+			);
+			productName = Humstead;
+			productReference = 21EC3D19EE269919360F6AC1 /* Humstead.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BC67E8BFB0884CEFCD6C0316 /* HumsteadTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64C703198436C3CDD761A6CA /* Build configuration list for PBXNativeTarget "HumsteadTests" */;
+			buildPhases = (
+				EE351278F9ADEFE523E7C204 /* Sources */,
+				8CCCE4184F51082B4718B163 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HumsteadTests;
+			packageProductDependencies = (
+			);
+			productName = HumsteadTests;
+			productReference = 0AE80622C2EFA4AA1B51FDCA /* HumsteadTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F67D06EC767C406BDFFD9E72 /* HumsteadUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0D92A3A785762878CE6EE53 /* Build configuration list for PBXNativeTarget "HumsteadUITests" */;
+			buildPhases = (
+				A09FB8859785E6F38E65D850 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2BB9C67F7DE87D1D8BD4EB9E /* PBXTargetDependency */,
+			);
+			name = HumsteadUITests;
+			packageProductDependencies = (
+			);
+			productName = HumsteadUITests;
+			productReference = 707FC5FFC1DAA6FC89D528C9 /* HumsteadUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F144CE0606DE96B5E4D0385A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					1EC0B38C090AE047DBB22D28 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					BC67E8BFB0884CEFCD6C0316 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					F67D06EC767C406BDFFD9E72 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+						TestTargetID = 1EC0B38C090AE047DBB22D28;
+					};
+				};
+			};
+			buildConfigurationList = 680A27DC9CFF666E18621D88 /* Build configuration list for PBXProject "Humstead" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D6439DDA90E7FF3D653A67F4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 72A315A0BCF99F7DA574610F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1EC0B38C090AE047DBB22D28 /* Humstead */,
+				BC67E8BFB0884CEFCD6C0316 /* HumsteadTests */,
+				F67D06EC767C406BDFFD9E72 /* HumsteadUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8CCCE4184F51082B4718B163 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2D5B5A88072FCC4A284A13C /* 2-hour-delay.m4a in Resources */,
+				626B49EE77556A6497621368 /* a-little-shade.m4a in Resources */,
+				A4CFD63CBC9649003B7A77E3 /* cafe.caf in Resources */,
+				3F07A2D1A3C8AE1E6E1F59A5 /* catalog.json in Resources */,
+				1B2B56B97C270C487EA689BC /* chills.m4a in Resources */,
+				F801BF6FB35F92ABA915F379 /* creature-comforts.m4a in Resources */,
+				617DA701C1D4427A12CFD716 /* everything-you-ever-dreamed.m4a in Resources */,
+				7CFA9D314A202636E8EEFA8E /* fireplace.caf in Resources */,
+				AB80BEAA527A0A0F489BF8A9 /* foggy-headed.m4a in Resources */,
+				92A404F5E5D4ABD0B96E02E9 /* forest.caf in Resources */,
+				B6EFA42C74D5907B245EEBC3 /* keeping-cool.m4a in Resources */,
+				839FDC440ACD46ACA8ED4C73 /* morning-coffee.m4a in Resources */,
+				66CFB3925DC325204A6A6D8A /* rain.caf in Resources */,
+				545AC465067A8F1EEFC5A655 /* snow-drift.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D663B829A291A06DE76B11C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02ED23ED09498616B68639BD /* 2-hour-delay.m4a in Resources */,
+				BC6C5724857D6D4C3B7A74CB /* a-little-shade.m4a in Resources */,
+				3F2C644C9AAFDABD53C8D5E2 /* cafe.caf in Resources */,
+				082CEA5828AB8DFF2DD33586 /* catalog.json in Resources */,
+				A6F9AD0D51FAC17E4F0C5B56 /* chills.m4a in Resources */,
+				FAA85EA367A71C7E0EFFD73B /* creature-comforts.m4a in Resources */,
+				342B58B96AE3BCC7CD3128C1 /* everything-you-ever-dreamed.m4a in Resources */,
+				3FFA46A3535E089463A0EDDA /* fireplace.caf in Resources */,
+				922543B0BCB2F2E1243A75E4 /* foggy-headed.m4a in Resources */,
+				92CD663E6D1FC8CC072CF511 /* forest.caf in Resources */,
+				2C6A02924FB45942840997AC /* keeping-cool.m4a in Resources */,
+				F16E51CEB405601DE564EC62 /* morning-coffee.m4a in Resources */,
+				67991452C89A17F48B32B05A /* rain.caf in Resources */,
+				EEFB3E904237B370AA7A12AD /* snow-drift.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		05F93337A8F2AEC15A92E025 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24ECADAFD4CDF41CBDAEA36F /* AudioController.swift in Sources */,
+				03324EF820F4BCE41AB44E21 /* AudioRouteObserver.swift in Sources */,
+				14434117F38DE8F46178008C /* Catalog.swift in Sources */,
+				7E77418C3E2EBE4EFBBFC2B4 /* ContentView.swift in Sources */,
+				F8D80403AE21ED8FE4710B0F /* CreditsView.swift in Sources */,
+				6EC7C69BD9FE4442F94AD2B1 /* DownloadCatalog.swift in Sources */,
+				44BB3599A4060E1739A5798E /* DownloadCoordinator.swift in Sources */,
+				41A26086BEAD3D87279FCA45 /* DownloadsView.swift in Sources */,
+				6FF5377CD475D7CB5418CA77 /* HTTPTransfer.swift in Sources */,
+				1019E0D1A6774D954706E524 /* HumsteadApp.swift in Sources */,
+				7E214BD58A29E9BDA990724D /* LibraryStore.swift in Sources */,
+				77038A0BC53CC707E5EF943A /* MenuBarView.swift in Sources */,
+				1D5CC455B4E7A78B441D9F3A /* MixSettings.swift in Sources */,
+				3873421FFDF74F3C49BF6F94 /* PlayerModel.swift in Sources */,
+				6293D0B661D7215135605E67 /* PrivacyView.swift in Sources */,
+				3C220092C5D18F2109120ED7 /* SettingsStore.swift in Sources */,
+				3BF35547C15E1809E4554592 /* SettingsView.swift in Sources */,
+				9FF5D8DF6DB29D6654AF4398 /* ShuffleBag.swift in Sources */,
+				34703B2FA762708F7AC4A880 /* SleepTimer.swift in Sources */,
+				7689F5B911CF76E170863B80 /* SystemMediaBridge.swift in Sources */,
+				35918A9102C67B34DE1DE12E /* UsageReporter.swift in Sources */,
+				1311D6EC45B9C3D96081A2B0 /* UsageTransport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A09FB8859785E6F38E65D850 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D182F68A1B63F499085317D8 /* BoundedLibraryUITests.swift in Sources */,
+				8F0BAE550D3F44EB23C75E9D /* CreditsUITests.swift in Sources */,
+				05FF6ED2FCC9E4FE5DAE60B4 /* DownloadsUITests.swift in Sources */,
+				97FCB13313F78117F265AC6A /* MixUITests.swift in Sources */,
+				F1BEE262F86EA87D13765260 /* PlayerUITests.swift in Sources */,
+				A79867A1CB878D0E8E2C6AE4 /* PrivacyUITests.swift in Sources */,
+				8BD249F0EB16F5004F27E2CC /* ScaffoldUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE351278F9ADEFE523E7C204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36490357FAA01F78C0409672 /* AudioController.swift in Sources */,
+				884F7E8CD660A12FB3078682 /* AudioControllerTests.swift in Sources */,
+				DED66603472493CEBB82CDA7 /* AudioRouteObserver.swift in Sources */,
+				2E4B2ADF569E026C412BBB43 /* Catalog.swift in Sources */,
+				62ED483A3874641344A26304 /* CatalogTests.swift in Sources */,
+				C9CCDAFA184990E95C906951 /* DownloadCatalog.swift in Sources */,
+				12B3154BB571D4C500358F0F /* DownloadCatalogTests.swift in Sources */,
+				7F4A4E3DA42E13F9B58EBEA5 /* DownloadCoordinator.swift in Sources */,
+				637491FC093C2343B42B87D9 /* DownloadTests.swift in Sources */,
+				02AE080C6EF688B03C450DB9 /* HTTPTransfer.swift in Sources */,
+				6BF78B5B02150F5A1FFBA33A /* LibraryStore.swift in Sources */,
+				2E280ABDD71D4B1E4770D961 /* LibraryStoreTests.swift in Sources */,
+				23D7FD42DF092D839D8A951C /* LifecycleTests.swift in Sources */,
+				58C37939787F266EF2FCC9CA /* MixAudioTests.swift in Sources */,
+				14024D23B6A61FF015C58818 /* MixSettings.swift in Sources */,
+				DF5C6BD7AD91B46DFB5616C0 /* MixSettingsTests.swift in Sources */,
+				40FE9A136708284AA5944FAD /* PlayerModel.swift in Sources */,
+				0E41B5B5DE42E8E774D5D694 /* ScaffoldTests.swift in Sources */,
+				926BB7622FF7C67C38B7149D /* SettingsStore.swift in Sources */,
+				EC871E883F86CBF91C1F20F9 /* SettingsStoreTests.swift in Sources */,
+				38C7D4D1F9E5BCD600930B78 /* ShuffleBag.swift in Sources */,
+				FD90FA23B73E2927A5629A30 /* ShuffleBagTests.swift in Sources */,
+				993855C2C22851BA86E84E57 /* SleepTimer.swift in Sources */,
+				015E378B302BC2EBA1D8C48B /* SleepTimerTests.swift in Sources */,
+				B11222F0C8E4DC1D0A4C8E50 /* SystemMediaBridge.swift in Sources */,
+				3071144B4CF352F895993DF2 /* SystemMediaTests.swift in Sources */,
+				5135A44E3B9EB8A6912C8210 /* UsageReporter.swift in Sources */,
+				828137216EDDB8E4BD3AD8B7 /* UsageReporterTests.swift in Sources */,
+				D333FB5D94859E2086EDA80D /* UsageTransport.swift in Sources */,
+				B8030A28744273A1375F7BC1 /* UsageTransportTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2BB9C67F7DE87D1D8BD4EB9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1EC0B38C090AE047DBB22D28 /* Humstead */;
+			targetProxy = 935441E8E191EB5B52B477F5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		30243B94754BBC9271B0DEED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = Humstead;
+			};
+			name = Debug;
+		};
+		3169184E76D2BC4E48641C73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_MODULE_CACHE_PATH = "$(SRCROOT)/.build/ModuleCache";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_MODULE_CACHE_PATH = "$(SRCROOT)/.build/ModuleCache";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		882A7B421B572E0CBF2E01F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Humstead/Humstead.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				HUMSTEAD_DOWNLOAD_ORIGIN = "";
+				HUMSTEAD_USAGE_ATTESTED = NO;
+				HUMSTEAD_USAGE_TOKEN = "";
+				INFOPLIST_FILE = ".build/Humstead-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Humstead;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9752F3B55B570CB409FAFA2D /* Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.tests;
+				SDKROOT = macosx;
+			};
+			name = Testing;
+		};
+		A5B8D9794B8F68388EEEA99C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_MODULE_CACHE_PATH = "$(SRCROOT)/.build/ModuleCache";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_MODULE_CACHE_PATH = "$(SRCROOT)/.build/ModuleCache";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		B5B26EF4458BE88258926CCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = Humstead;
+			};
+			name = Release;
+		};
+		C42BD7D41E33E4BA654C5C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.tests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DE0280325E6DE9E9738A7B78 /* Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_MODULE_CACHE_PATH = "$(SRCROOT)/.build/ModuleCache";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_MODULE_CACHE_PATH = "$(SRCROOT)/.build/ModuleCache";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Testing;
+		};
+		DFCC7AB11E56013992AB0FCD /* Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Humstead/Humstead.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				HUMSTEAD_DOWNLOAD_ORIGIN = "";
+				HUMSTEAD_USAGE_ATTESTED = NO;
+				HUMSTEAD_USAGE_TOKEN = "";
+				INFOPLIST_FILE = ".build/Humstead-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Humstead;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.testing;
+				SDKROOT = macosx;
+			};
+			name = Testing;
+		};
+		F773E91B41D749355C5078FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.tests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F8351568FC7CBE8D7A5D80CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Humstead/Humstead.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				HUMSTEAD_DOWNLOAD_ORIGIN = "";
+				HUMSTEAD_USAGE_ATTESTED = NO;
+				HUMSTEAD_USAGE_TOKEN = "";
+				INFOPLIST_FILE = ".build/Humstead-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Humstead;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FD149FA238CEFD1E220440E5 /* Testing */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mateusnroll.humstead.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = Humstead;
+			};
+			name = Testing;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4133BE7097B5AA43D0E25B87 /* Build configuration list for PBXNativeTarget "Humstead" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8351568FC7CBE8D7A5D80CF /* Debug */,
+				882A7B421B572E0CBF2E01F4 /* Release */,
+				DFCC7AB11E56013992AB0FCD /* Testing */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		64C703198436C3CDD761A6CA /* Build configuration list for PBXNativeTarget "HumsteadTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F773E91B41D749355C5078FD /* Debug */,
+				C42BD7D41E33E4BA654C5C96 /* Release */,
+				9752F3B55B570CB409FAFA2D /* Testing */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		680A27DC9CFF666E18621D88 /* Build configuration list for PBXProject "Humstead" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3169184E76D2BC4E48641C73 /* Debug */,
+				A5B8D9794B8F68388EEEA99C /* Release */,
+				DE0280325E6DE9E9738A7B78 /* Testing */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A0D92A3A785762878CE6EE53 /* Build configuration list for PBXNativeTarget "HumsteadUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30243B94754BBC9271B0DEED /* Debug */,
+				B5B26EF4458BE88258926CCD /* Release */,
+				FD149FA238CEFD1E220440E5 /* Testing */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F144CE0606DE96B5E4D0385A /* Project object */;
+}

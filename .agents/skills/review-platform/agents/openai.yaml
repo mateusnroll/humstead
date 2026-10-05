@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humstead Review Platform"
+  short_description: "Review native macOS behavior and evidence"
+  default_prompt: "Use $review-platform for the current Humstead task."

@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+import os
+import pathlib
+import re
+import sys
+
+root = pathlib.Path(__file__).resolve().parent.parent
+required = ('environment', 'setup', 'dev', 'check', 'verify', 'build', 'build-for-testing', 'inspect-app', 'test-harness', 'validate-workflows', 'validate-ci', 'test-download-shutdown', 'with-download-fixture', 'download-fixture.py', 'with-analytics-fixture', 'analytics-fixture.py')
+for name in required:
+    path = root / 'scripts' / name
+    assert path.is_file() and os.access(path, os.X_OK), f'Missing executable: {path}'
+
+skills = ('spec', 'implement', 'review-simplicity', 'polish', 'review-platform')
+paths = [root / 'AGENTS.md', root / 'docs/WORKFLOW.md', root / 'docs/specs/README.md', root / 'README.md']
+paths += list((root / 'docs/specs').glob('*.md'))
+for name in skills:
+    skill = root / '.agents/skills' / name
+    content = (skill / 'SKILL.md').read_text()
+    assert re.search(r'^---\nname: ' + re.escape(name) + r'\ndescription: .+\n---\n', content), f'Invalid frontmatter: {name}'
+    metadata = (skill / 'agents/openai.yaml').read_text()
+    for field in ('display_name', 'short_description', 'default_prompt'):
+        assert re.search(r'  ' + field + r': "[^"\n]+"', metadata), f'Missing metadata {name}.{field}'
+    assert '$' + name in metadata, f'Default prompt omits skill {name}'
+    paths += [skill / 'SKILL.md', skill / 'agents/openai.yaml']
+for path in set(paths):
+    content = path.read_text()
+    assert not re.search(r'/Users/|/home/|~/', content), f'Machine-specific path: {path}'
+    if path.name != 'TEMPLATE.md':
+        assert not re.search(r'\bTODO\b|\bTBD\b|\{\{.+?\}\}', content), f'Unfilled template: {path}'
+    for target in re.findall(r'\[[^\]]+\]\(([^)]+)\)', content):
+        if '://' in target or target.startswith('#'):
+            continue
+        relative = target.split('#')[0]
+        assert (path.parent / relative).exists(), f'Unresolved link in {path}: {target}'
+    for command in re.findall(r'\bscripts/([a-z][a-z-]*(?:\.py)?)', content):
+        assert command in required, f'Undocumented command mismatch: {command}'
+for name in ('setup', 'dev', 'check', 'verify', 'build'):
+    for path in (root / 'README.md', root / 'docs/WORKFLOW.md'):
+        assert 'scripts/' + name in path.read_text(), f'Command omitted from {path}: {name}'
+print('Repository workflows and skill metadata valid')
