@@ -2,6 +2,35 @@ import Foundation
 import Testing
 
 struct UsageReporterTests {
+  @Test func menuActionAcknowledgementsStayBoundToTheirOutcome() {
+    var pending = MenuUsage(audio: (10, 7))
+    var laterSuccess = PlaybackState()
+    laterSuccess.requestID = 11
+    #expect(pending.acknowledge(laterSuccess) == nil)
+    var failedAction = PlaybackState()
+    failedAction.requestID = 10
+    failedAction.error = "Unavailable audio"
+    #expect(pending.acknowledge(failedAction) == nil)
+    #expect(pending.audio == nil)
+    #expect(pending.acknowledge(laterSuccess) == nil)
+
+    pending.audio = (10, 7)
+    var successfulAction = PlaybackState()
+    successfulAction.requestID = 10
+    #expect(pending.acknowledge(laterSuccess) == nil)
+    #expect(pending.acknowledge(successfulAction) == 7)
+    #expect(pending.acknowledge(successfulAction) == nil)
+
+    pending.windowToken = 7
+    #expect(pending.windowShown() == 7)
+    #expect(pending.windowShown() == nil)
+    pending.windowToken = nil
+    #expect(pending.windowShown() == nil)
+    pending.windowToken = 7
+    pending = MenuUsage()
+    #expect(pending.windowShown() == nil)
+  }
+
   @Test func consentAndConcurrentPreferences() async throws {
     let context = try UsageContext()
     defer { context.remove() }

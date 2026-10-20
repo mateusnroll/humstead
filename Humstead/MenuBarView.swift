@@ -22,6 +22,7 @@ struct MenuBarView: View {
     }
     Divider()
     Button("Show Humstead") {
+      model.menuWindowRequested()
       openWindow(id: "player")
       NSApp.activate(ignoringOtherApps: true)
       if NSApp.windows.contains(where: { $0.title == "Humstead" && $0.isVisible }) {

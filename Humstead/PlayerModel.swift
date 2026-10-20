@@ -32,7 +32,7 @@ final class PlayerModel: ObservableObject {
   private var usageClock: UsageTestClock?
   private var usageChangeID: UInt64 = 0
   private var usageRequestToken: UInt64?
-  private var menuRequest: (id: UInt64, token: UInt64?)?
+  private var menuUsage = MenuUsage()
   private var controller: AudioController?
   private var store: SettingsStore?
   private var media: SystemMediaBridge?
@@ -186,7 +186,9 @@ final class PlayerModel: ObservableObject {
     return Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18
   }
   private func receive(_ snapshot: PlaybackState) {
-    guard !stopped, snapshot.requestID >= requestID, snapshot.sequence > state.sequence else {
+    guard !stopped else { return }
+    if let token = menuUsage.acknowledge(snapshot) { report(.menuBar, token: token) }
+    guard snapshot.requestID >= requestID, snapshot.sequence > state.sequence else {
       return
     }
     state = snapshot
@@ -196,10 +198,6 @@ final class PlayerModel: ObservableObject {
       })
     {
       report(.ambience(only: snapshot.volume == 0), token: usageRequestToken)
-    }
-    if let pending = menuRequest, snapshot.requestID >= pending.id {
-      menuRequest = nil
-      if snapshot.error == nil { report(.menuBar, token: pending.token) }
     }
     if let expired = snapshot.expiredTimer, sleepTimer.finish(generation: expired) {
       timerTask?.cancel()
@@ -425,7 +423,7 @@ final class PlayerModel: ObservableObject {
     usageEnabled = false
     usageChanging = true
     usageRequestToken = nil
-    menuRequest = nil
+    menuUsage = MenuUsage()
     Task { [weak self] in
       let result = await usage.setConsent(enabled, revision: revision)
       guard let self, !stopped, usageChangeID == change else { return }
@@ -447,18 +445,22 @@ final class PlayerModel: ObservableObject {
   func toggleFromMenu() {
     guard !stopped, controller != nil else { return }
     togglePlayback()
-    menuRequest = (requestID, usage?.token)
+    menuUsage.audio = (requestID, usage?.token)
   }
   func stationFromMenu(_ id: String) {
     guard !stopped, controller != nil, MixSettings.stationIDs.contains(id) else { return }
     selectStation(id)
-    menuRequest = (requestID, usage?.token)
+    menuUsage.audio = (requestID, usage?.token)
   }
-  func menuWindowShown() { report(.menuBar, token: usage?.token) }
+  func menuWindowRequested() { menuUsage.windowToken = usage?.token }
+  func menuWindowShown() {
+    if let token = menuUsage.windowShown() { report(.menuBar, token: token) }
+  }
 
   func stop() {
     guard !stopped else { return }
     stopped = true
+    menuUsage = MenuUsage()
     usage?.close()
     usageTask?.cancel()
     timerTask?.cancel()
@@ -470,5 +472,21 @@ final class PlayerModel: ObservableObject {
     media?.stop()
     controller?.stop()
     _ = store?.flush(timeout: 1)
+  }
+}
+
+struct MenuUsage {
+  var audio: (id: UInt64, token: UInt64?)?
+  var windowToken: UInt64?
+
+  mutating func acknowledge(_ snapshot: PlaybackState) -> UInt64? {
+    guard let pending = audio, snapshot.requestID == pending.id else { return nil }
+    audio = nil
+    return snapshot.error == nil ? pending.token : nil
+  }
+
+  mutating func windowShown() -> UInt64? {
+    defer { windowToken = nil }
+    return windowToken
   }
 }

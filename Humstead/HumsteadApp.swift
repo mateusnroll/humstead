@@ -9,7 +9,18 @@ struct HumsteadApp: App {
   var body: some Scene {
     Window("Humstead", id: "player") {
       ContentView(model: model)
-        .onAppear { delegate.model = model }
+        .onAppear {
+          delegate.model = model
+          model.menuWindowShown()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
+          notification in
+          if let window = notification.object as? NSWindow, window.title == "Humstead",
+            window.isVisible
+          {
+            model.menuWindowShown()
+          }
+        }
     }
     .defaultSize(width: 380, height: 520)
     .commands {

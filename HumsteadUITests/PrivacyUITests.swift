@@ -2,6 +2,40 @@ import XCTest
 
 @MainActor
 final class PrivacyUITests: XCTestCase {
+  func testReopeningPlayerReportsSuccessfulMenuUse() async throws {
+    let origin = URL(string: "http://127.0.0.1:38477")!
+    try await configure(origin, ["reset": true])
+    let app = XCUIApplication()
+    app.launchArguments = [
+      "--test-settings", "privacy-menu-\(UUID().uuidString)", "--test-usage-origin",
+      origin.absoluteString, "--test-usage-clock", "YES",
+    ]
+    app.launch()
+    defer { app.terminate() }
+    let player = app.windows["Humstead"]
+    XCTAssertTrue(player.buttons["Play"].waitForExistence(timeout: 10))
+    openPrivacy(app)
+    let toggle = app.checkBoxes["Share weekly usage summaries"]
+    toggle.click()
+    await waitValue(toggle, 1)
+    app.typeKey("w", modifierFlags: .command)
+    player.buttons["Play"].click()
+    player.buttons["Pause"].click()
+    app.typeKey("w", modifierFlags: .command)
+    XCTAssertFalse(player.exists)
+    app.statusItems.firstMatch.click()
+    app.statusItems.firstMatch.menuItems["Show Humstead"].click()
+    XCTAssertTrue(player.buttons["Play"].waitForExistence(timeout: 5))
+    openPrivacy(app)
+    app.buttons["Advance reporting window"].click()
+    let reports = try await waitReports(origin, count: 1)
+    let body = try XCTUnwrap(reports.first?["body"] as? [String: Any])
+    let properties = try XCTUnwrap(body["properties"] as? [String: Any])
+    XCTAssertEqual(properties["usedMenuBar"] as? Bool, true)
+    XCTAssertEqual(properties["usedTimer"] as? Bool, false)
+    XCTAssertEqual(reports.count, 1)
+  }
+
   func testDisclosureAndUnavailableBuild() {
     let app = XCUIApplication()
     app.launchArguments = ["--test-settings", "privacy-off-\(UUID().uuidString)"]
