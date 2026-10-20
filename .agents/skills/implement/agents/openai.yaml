@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humstead Implement"
+  short_description: "Build approved Humstead specifications"
+  default_prompt: "Use $implement for the current Humstead task."

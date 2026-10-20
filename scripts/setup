@@ -1,0 +1,48 @@
+#!/bin/bash
+set -euo pipefail
+source "$(dirname "$0")/environment"
+for tool in python3 curl unzip shasum git; do command -v "$tool" >/dev/null; done
+python3 - <<'PYTHON'
+import hashlib, json, os, pathlib, subprocess, tempfile, zipfile
+root = pathlib.Path.cwd()
+lock = json.loads((root / 'tools.lock').read_text())['xcodegen']
+tools = root / '.tools'
+tools.mkdir(exist_ok=True)
+archive = tools / 'xcodegen.zip'
+expected = lock['sha256']
+def valid(path):
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == expected
+with tempfile.TemporaryDirectory(prefix='setup-', dir=tools) as staging:
+    staging = pathlib.Path(staging)
+    source = archive
+    if not valid(archive):
+        source = staging / 'xcodegen.zip'
+        subprocess.run(['curl', '--fail', '--location', '--silent', '--show-error', '--output', str(source), lock['url']], check=True)
+        if not valid(source):
+            raise SystemExit('XcodeGen checksum mismatch; installed generator unchanged')
+    with zipfile.ZipFile(source) as package:
+        for name in package.namelist():
+            parts = pathlib.PurePosixPath(name).parts
+            if not parts or parts[0] != 'xcodegen' or '..' in parts:
+                raise SystemExit('Invalid archive path')
+        package.extractall(staging)
+    candidate = staging / 'xcodegen'
+    binary = candidate / 'bin/xcodegen'
+    binary.chmod(0o755)
+    version = subprocess.check_output([str(binary), '--version'], text=True).strip()
+    if version != 'Version: ' + lock['version']:
+        raise SystemExit('Unexpected XcodeGen version: ' + version)
+    if source != archive:
+        os.replace(source, archive)
+    installed = tools / 'xcodegen'
+    previous = staging / 'previous'
+    if installed.exists():
+        os.replace(installed, previous)
+    try:
+        os.replace(candidate, installed)
+    except OSError:
+        if previous.exists():
+            os.replace(previous, installed)
+        raise
+subprocess.run([str(tools / 'xcodegen/bin/xcodegen'), 'generate', '--spec', 'project.yml'], check=True)
+PYTHON

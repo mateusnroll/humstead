@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "id": "1B0191EC-4C1D-4556-B06F-1B575392D5B4",
+      "name": "Local",
+      "options": {}
+    }
+  ],
+  "defaultOptions": {},
+  "testTargets": [
+    {
+      "target": {
+        "containerPath": "container:Humstead.xcodeproj",
+        "identifier": "BC67E8BFB0884CEFCD6C0316",
+        "name": "HumsteadTests"
+      },
+      "parallelizable": false
+    },
+    {
+      "target": {
+        "containerPath": "container:Humstead.xcodeproj",
+        "identifier": "F67D06EC767C406BDFFD9E72",
+        "name": "HumsteadUITests"
+      },
+      "parallelizable": false
+    }
+  ],
+  "version": 1
+}

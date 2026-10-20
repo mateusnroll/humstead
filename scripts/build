@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+source "$(dirname "$0")/environment"
+xcodebuild "${BUILD_ARGS[@]}" -configuration Release build
+scripts/inspect-app Release

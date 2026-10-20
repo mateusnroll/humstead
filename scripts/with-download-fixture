@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+mkdir -p .build
+fixture_directory="$(mktemp -d "$ROOT/.build/download-fixture-XXXXXX")"
+python3 scripts/download-fixture.py --root "$ROOT" --ready "$fixture_directory/ready.json" --port 38476 > "$fixture_directory/server.log" 2>&1 &
+fixture_pid=$!
+cleanup() {
+  kill "$fixture_pid" 2>/dev/null || true
+  wait "$fixture_pid" 2>/dev/null || true
+}
+trap cleanup EXIT
+for attempt in {1..100}; do
+  if ! kill -0 "$fixture_pid" 2>/dev/null; then
+    cat "$fixture_directory/server.log"
+    exit 1
+  fi
+  [[ -s "$fixture_directory/ready.json" ]] && break
+  sleep 0.05
+done
+[[ -s "$fixture_directory/ready.json" ]]
+"$@"

@@ -1,0 +1,60 @@
+{
+  "name": "CI",
+  "on": {
+    "push": {
+      "branches": [
+        "codex/v1"
+      ]
+    },
+    "pull_request": {}
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "jobs": {
+    "static-contracts": {
+      "runs-on": "macos-26",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Select Xcode 26",
+          "run": "set -euo pipefail\nselected=\"$(find /Applications -maxdepth 1 -name 'Xcode_26*.app' -type d | sort -V | tail -1)\"\ntest -n \"$selected\"\necho \"DEVELOPER_DIR=$selected/Contents/Developer\" >> \"$GITHUB_ENV\""
+        },
+        {
+          "name": "Setup",
+          "run": "scripts/setup"
+        },
+        {
+          "name": "Static contracts",
+          "run": "scripts/check"
+        }
+      ]
+    },
+    "macos-build": {
+      "runs-on": "macos-26",
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Select Xcode 26",
+          "run": "set -euo pipefail\nselected=\"$(find /Applications -maxdepth 1 -name 'Xcode_26*.app' -type d | sort -V | tail -1)\"\ntest -n \"$selected\"\necho \"DEVELOPER_DIR=$selected/Contents/Developer\" >> \"$GITHUB_ENV\""
+        },
+        {
+          "name": "Setup",
+          "run": "scripts/setup"
+        },
+        {
+          "name": "Compile test bundles",
+          "run": "scripts/build-for-testing"
+        },
+        {
+          "name": "Build and inspect Release",
+          "run": "scripts/build"
+        }
+      ]
+    }
+  }
+}

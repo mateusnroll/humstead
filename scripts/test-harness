@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+import hashlib
+import json
+import os
+import pathlib
+import shutil
+import subprocess
+import sys
+import tempfile
+
+root = pathlib.Path(__file__).resolve().parent.parent
+(root / '.build').mkdir(exist_ok=True)
+
+
+def run(command, cwd, expected=0, env=None):
+    result = subprocess.run(command, cwd=cwd, env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    assert result.returncode == expected if expected == 0 else result.returncode != 0, result.stdout
+    return result
+
+
+def executable(path, content):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content)
+    path.chmod(0o755)
+
+
+def fixture(directory):
+    for name in ('scripts', 'Humstead', 'HumsteadTests', 'HumsteadUITests', '.agents', 'docs', '.github', 'Humstead.xcodeproj'):
+        shutil.copytree(root / name, directory / name, ignore=shutil.ignore_patterns('xcuserdata'))
+    for name in ('project.yml', 'Humstead.xctestplan', 'tools.lock', 'AGENTS.md', 'README.md', 'LICENSE'):
+        shutil.copy2(root / name, directory / name)
+    (directory / '.tools').mkdir()
+    shutil.copytree(root / '.tools/xcodegen', directory / '.tools/xcodegen')
+    shutil.copy2(root / '.tools/xcodegen.zip', directory / '.tools/xcodegen.zip')
+
+
+def setup_contract(directory):
+    fixture(directory)
+    fake = directory / '.build/bin'
+    executable(fake / 'curl', '#!/bin/bash\nexit 23\n')
+    env = dict(os.environ, PATH=str(fake) + ':' + os.environ['PATH'])
+    before = (directory / 'Humstead.xcodeproj/project.pbxproj').read_bytes()
+    run(['scripts/setup'], directory, env=env)
+    assert (directory / 'Humstead.xcodeproj/project.pbxproj').read_bytes() == before
+    binary = directory / '.tools/xcodegen/bin/xcodegen'
+    installed = hashlib.sha256(binary.read_bytes()).hexdigest()
+    lock = json.loads((directory / 'tools.lock').read_text())
+    lock['xcodegen']['sha256'] = '0' * 64
+    (directory / 'tools.lock').write_text(json.dumps(lock))
+    run(['scripts/setup'], directory, expected=1, env=env)
+    assert hashlib.sha256(binary.read_bytes()).hexdigest() == installed
+    executable(fake / 'curl', '#!/bin/bash\nwhile [[ $# -gt 0 ]]; do\n if [[ "$1" == --output ]]; then printf invalid > "$2"; exit 0; fi\n shift\ndone\nexit 2\n')
+    result = run(['scripts/setup'], directory, expected=1, env=env)
+    assert 'checksum mismatch' in result.stdout, result.stdout
+    assert hashlib.sha256(binary.read_bytes()).hexdigest() == installed
+
+
+def verification_contract(directory):
+    (directory / 'scripts').mkdir()
+    shutil.copy2(root / 'scripts/verify', directory / 'scripts/verify')
+    executable(directory / 'scripts/environment', '#!/bin/bash\nROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"\ncd "$ROOT"\nBUILD_ARGS=(-fixture)\nmkdir -p .build/results\nexport PATH="$ROOT/bin:$PATH"\n')
+    stages = ['check', 'test-harness', 'test-download-shutdown', 'build-for-testing', 'python3', 'with-download-fixture', 'with-analytics-fixture', 'xcodebuild', 'inspect-app', 'build']
+    for fail in [None] + stages:
+        trace = directory / 'trace'
+        if trace.exists():
+            trace.unlink()
+        for stage in stages:
+            path = directory / ('bin' if stage in ('xcodebuild', 'python3') else 'scripts') / stage
+            executable(path, '#!/bin/bash\nprintf "%s\\n" ' + stage + ' >> trace\nexit ' + ('73' if stage == fail else '0') + '\n')
+            if stage in ('with-download-fixture', 'with-analytics-fixture') and stage != fail:
+                executable(path, '#!/bin/bash\nprintf \"%s\\n\" ' + stage + ' >> trace\n\"$@\"\n')
+        result = run(['scripts/verify'], directory, expected=0 if fail is None else 73)
+        expected = stages if fail is None else stages[:stages.index(fail) + 1]
+        assert trace.read_text().splitlines() == expected
+        assert result.returncode == (0 if fail is None else 73)
+
+
+def static_contract(directory):
+    fixture(directory)
+    run(['scripts/check'], directory)
+    skill = directory / '.agents/skills/spec/SKILL.md'
+    original = skill.read_text()
+    skill.write_text(original + '\n[Broken](missing.md)\n')
+    run(['scripts/validate-workflows'], directory, expected=1)
+    skill.write_text(original)
+    metadata = directory / '.agents/skills/spec/agents/openai.yaml'
+    original_metadata = metadata.read_text()
+    metadata.write_text('interface: {}\n')
+    run(['scripts/validate-workflows'], directory, expected=1)
+    metadata.write_text(original_metadata)
+    command = directory / 'scripts/build'
+    command.chmod(0o644)
+    run(['scripts/validate-workflows'], directory, expected=1)
+    command.chmod(0o755)
+    project = directory / 'Humstead.xcodeproj/project.pbxproj'
+    original_project = project.read_bytes()
+    project.write_bytes(original_project + b'// drift\n')
+    result = run(['scripts/check'], directory, expected=1)
+    assert 'Generated project drift' in result.stdout, result.stdout
+    project.write_bytes(original_project)
+    swift = directory / 'Humstead/ContentView.swift'
+    swift.write_text(swift.read_text().replace('struct ContentView: View {', 'struct ContentView:View{'))
+    run(['scripts/check'], directory, expected=1)
+    ci = directory / '.github/workflows/ci.yml'
+    data = json.loads(ci.read_text())
+    data['jobs']['macos-build']['steps'].append({'run': 'scripts/verify'})
+    ci.write_text(json.dumps(data))
+    run(['scripts/validate-ci'], directory, expected=1)
+
+
+cases = {'setup-contract': setup_contract, 'verification-contract': verification_contract, 'static-contract': static_contract}
+selected = sys.argv[1:] or list(cases)
+for name in selected:
+    if name not in cases:
+        raise SystemExit('Unknown harness: ' + name)
+    with tempfile.TemporaryDirectory(prefix=name + '-', dir=root / '.build') as folder:
+        cases[name](pathlib.Path(folder))
+    print(name + ': passed')

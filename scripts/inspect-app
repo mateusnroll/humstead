@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+import pathlib
+import plistlib
+import subprocess
+import sys
+
+root = pathlib.Path(__file__).resolve().parent.parent
+configuration = sys.argv[1] if len(sys.argv) > 1 else 'Release'
+if configuration not in ('Release', 'Debug', 'Testing'):
+    raise SystemExit('Expected Release, Debug or Testing')
+app = root / '.build/DerivedData/Build/Products' / configuration / 'Humstead.app'
+info = plistlib.loads((app / 'Contents/Info.plist').read_bytes())
+expected_id = 'com.mateusnroll.humstead' + ('.testing' if configuration == 'Testing' else '')
+assert info['CFBundleIdentifier'] == expected_id, info
+assert info['CFBundleShortVersionString'] == '0.1.0', info
+assert info['CFBundleVersion'] == '1', info
+assert info['LSMinimumSystemVersion'] == '13.0', info
+binary = app / 'Contents/MacOS' / info['CFBundleExecutable']
+assert subprocess.check_output(['lipo', '-archs', str(binary)], text=True).strip() == 'arm64'
+subprocess.run(['codesign', '--verify', '--deep', '--strict', str(app)], check=True)
+signature = subprocess.check_output(['codesign', '-d', '--verbose=4', str(app)], stderr=subprocess.STDOUT, text=True)
+assert 'Signature=adhoc' in signature, signature
+entitlements = plistlib.loads(subprocess.check_output(['codesign', '-d', '--entitlements', ':-', str(app)], stderr=subprocess.DEVNULL))
+assert entitlements == {'com.apple.security.app-sandbox': True, 'com.apple.security.network.client': True}, entitlements
+load_commands = subprocess.check_output(['vtool', '-show-build', str(binary)], text=True)
+assert 'minos 13.0' in load_commands, load_commands
+assert (root / 'LICENSE').is_file(), 'Source license missing'
+print(f'{configuration}: arm64 macOS13, {expected_id}, ad-hoc signature, sandbox + network-client only')

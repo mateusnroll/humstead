@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humstead Polish"
+  short_description: "Explore bounded native interface refinements"
+  default_prompt: "Use $polish for the current Humstead task."

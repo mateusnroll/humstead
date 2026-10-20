@@ -2,8 +2,5 @@
 .build/
 .tools/
 .swiftpm/
-node_modules/
-*.xcuserstate
 xcuserdata/
-.env
-.env.*
+*.xcuserstate
